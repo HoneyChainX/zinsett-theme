@@ -1,0 +1,93 @@
+/* ZINSETT BundleBlock — Design Brief §5/§6. Tokens only, no hardcoded hex. */
+
+.zinsett-bundle {
+  display: grid;
+  gap: var(--zinsett-space-24);
+  align-items: center;
+}
+
+@media screen and (min-width: 990px) {
+  .zinsett-bundle {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--zinsett-space-40);
+  }
+}
+
+.zinsett-bundle__media {
+  border-radius: var(--zinsett-radius-card);
+  overflow: hidden;
+}
+
+.zinsett-bundle__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.zinsett-bundle__eyebrow {
+  margin: 0 0 var(--zinsett-space-8);
+  font-family: var(--zinsett-font-body-family);
+  font-weight: var(--zinsett-font-body-weight-semibold);
+  font-size: var(--zinsett-type-scale-13-5);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--zinsett-color-gold);
+}
+
+.zinsett-bundle__heading {
+  margin: 0 0 var(--zinsett-space-16);
+  font-family: var(--zinsett-font-display-family);
+  font-weight: var(--zinsett-font-display-weight-bold);
+  font-size: var(--zinsett-type-scale-27);
+}
+
+.zinsett-bundle__description {
+  margin: 0 0 var(--zinsett-space-16);
+  font-family: var(--zinsett-font-body-family);
+}
+
+.zinsett-bundle__items {
+  margin: 0 0 var(--zinsett-space-16);
+  padding: 0;
+  list-style: none;
+}
+
+.zinsett-bundle__item {
+  padding: var(--zinsett-space-8) 0;
+  border-bottom: 1px solid var(--zinsett-color-line);
+  font-family: var(--zinsett-font-body-family);
+}
+
+.zinsett-bundle__item:first-child {
+  border-top: 1px solid var(--zinsett-color-line);
+}
+
+.zinsett-bundle__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--zinsett-space-8);
+  margin: 0 0 var(--zinsett-space-16);
+  font-family: var(--zinsett-font-body-family);
+}
+
+.zinsett-bundle__price {
+  font-family: var(--zinsett-font-display-family);
+  font-weight: var(--zinsett-font-display-weight-bold);
+  font-size: var(--zinsett-type-scale-22);
+}
+
+.zinsett-bundle__price-compare {
+  color: var(--zinsett-color-muted);
+  text-decoration: line-through;
+}
+
+.zinsett-bundle__savings {
+  padding: 0.2rem 0.8rem;
+  border-radius: var(--zinsett-radius-pill);
+  background-color: var(--zinsett-color-green);
+  color: var(--zinsett-color-card);
+  font-size: var(--zinsett-type-scale-12);
+  font-weight: var(--zinsett-font-body-weight-semibold);
+}

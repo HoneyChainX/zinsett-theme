@@ -1,0 +1,95 @@
+/* ZINSETT CategoryTiles — Design Brief §5/§6. Tokens only, no hardcoded hex. */
+
+.zinsett-category-tiles__title {
+  font-family: var(--zinsett-font-display-family);
+  font-weight: var(--zinsett-font-display-weight-bold);
+  font-size: var(--zinsett-type-scale-27);
+}
+
+.zinsett-category-tiles__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--zinsett-space-16);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media screen and (min-width: 750px) {
+  .zinsett-category-tiles__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--zinsett-space-24);
+  }
+}
+
+.zinsett-category-tiles__item {
+  display: block;
+}
+
+.zinsett-category-tile {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.zinsett-category-tile__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--zinsett-radius-card);
+  overflow: hidden;
+}
+
+.zinsett-category-tile__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--zinsett-motion-hover-duration) var(--zinsett-motion-hover-easing);
+}
+
+.zinsett-category-tile:hover .zinsett-category-tile__image {
+  transform: scale(1.03);
+}
+
+.zinsett-category-tile__badge {
+  position: absolute;
+  top: var(--zinsett-space-8);
+  left: var(--zinsett-space-8);
+  padding: 0.3rem 0.9rem;
+  border-radius: var(--zinsett-radius-pill);
+  background-color: var(--zinsett-color-gold);
+  color: var(--zinsett-color-ink);
+  font-family: var(--zinsett-font-body-family);
+  font-weight: var(--zinsett-font-body-weight-semibold);
+  font-size: var(--zinsett-type-scale-12);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.zinsett-category-tile__label-wrap {
+  display: block;
+  margin-top: var(--zinsett-space-16);
+  text-align: center;
+}
+
+.zinsett-category-tile__label {
+  display: block;
+  font-family: var(--zinsett-font-display-family);
+  font-weight: var(--zinsett-font-display-weight-semibold);
+  font-size: var(--zinsett-type-scale-18);
+}
+
+.zinsett-category-tile__rule {
+  display: inline-block;
+  margin-top: var(--zinsett-space-8);
+  width: 4rem;
+  height: 2px;
+  background-color: var(--zinsett-color-gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zinsett-category-tile__image {
+    transition-duration: 0ms;
+  }
+}

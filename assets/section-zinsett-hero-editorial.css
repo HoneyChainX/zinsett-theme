@@ -1,0 +1,120 @@
+/* ZINSETT Editorial hero — Design Brief §6 Home #1. Tokens only, no hardcoded hex. */
+
+.zinsett-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.zinsett-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.zinsett-hero__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zinsett-hero__image--mobile {
+  display: none;
+}
+
+.zinsett-hero__content-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+
+.zinsett-hero__content-wrap--medium {
+  min-height: 45rem;
+}
+
+.zinsett-hero__content-wrap--large {
+  min-height: 60rem;
+}
+
+.zinsett-hero__scrim {
+  max-width: 46rem;
+  margin: var(--zinsett-space-24);
+  padding: var(--zinsett-space-40) var(--zinsett-space-24);
+  border-radius: var(--zinsett-radius-card);
+  box-shadow: var(--zinsett-shadow);
+}
+
+.zinsett-hero__eyebrow {
+  margin: 0 0 var(--zinsett-space-8);
+  font-family: var(--zinsett-font-body-family);
+  font-weight: var(--zinsett-font-body-weight-semibold);
+  font-size: var(--zinsett-type-scale-13-5);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--zinsett-color-gold);
+}
+
+.zinsett-hero__heading {
+  margin: 0 0 var(--zinsett-space-16);
+  font-family: var(--zinsett-font-display-family);
+  font-weight: var(--zinsett-font-display-weight-bold);
+  font-size: var(--zinsett-type-scale-34);
+  line-height: 1.1;
+}
+
+.zinsett-hero__subheading {
+  margin: 0 0 var(--zinsett-space-24);
+  font-family: var(--zinsett-font-body-family);
+  font-size: var(--zinsett-type-scale-15);
+}
+
+.zinsett-hero__subheading :last-child {
+  margin-bottom: 0;
+}
+
+.zinsett-hero__cta {
+  transition: background-color var(--zinsett-motion-hover-duration) var(--zinsett-motion-hover-easing);
+}
+
+@media screen and (min-width: 750px) {
+  .zinsett-hero__heading {
+    font-size: var(--zinsett-type-scale-44);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .zinsett-hero__content-wrap--medium,
+  .zinsett-hero__content-wrap--large {
+    min-height: 0;
+  }
+
+  .zinsett-hero__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+  }
+
+  .zinsett-hero__content-wrap {
+    display: block;
+  }
+
+  .zinsett-hero__image--desktop {
+    display: none;
+  }
+
+  .zinsett-hero__image--mobile {
+    display: block;
+  }
+
+  .zinsett-hero__scrim {
+    max-width: none;
+    margin: var(--zinsett-space-16);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zinsett-hero__cta {
+    transition-duration: 0ms;
+  }
+}
