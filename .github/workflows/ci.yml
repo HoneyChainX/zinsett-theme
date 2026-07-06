@@ -13,7 +13,7 @@ jobs:
         uses: shopify/lighthouse-ci-action@v1
         with:
           store: ${{ secrets.SHOP_STORE }}
-          access_token: ${{ secrets.SHOP_ACCESS_TOKEN }}  # Theme Access app password (shptka_), NOT the Admin shpat_
+          access_token: ${{ secrets.SHOP_PASSWORD }}  # Theme Access app password (shptka_) — the action's access_token input
           collection_handle: dogs
           product_handle: washable-dog-cooling-mat-ice-silk-cooling-mat-for-dogs-pet-self-cooling-pad-blanket-dog-cool-pad-for-indoor-outdoor-car-seats-blue-40x28-in
           lhci_min_score_performance: 0.85
