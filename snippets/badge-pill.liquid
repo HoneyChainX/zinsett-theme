@@ -1,0 +1,20 @@
+{% comment %}
+  Renders a ZINSETT BadgePill (Design Brief §5 `BadgePill`, §6 Collection).
+
+  Sale and sold-out pills reuse Dawn's existing `settings.sale_badge_color_scheme`
+  (scheme-4 / terra, Brief §2.1 color/terra) and `settings.sold_out_badge_color_scheme`
+  (scheme-3 / muted, Brief §2.1 color/muted) so merchants keep one control surface
+  (Theme settings > Badges) while every call site renders the same pill markup.
+  Pill radius/typography come from Dawn's `--badge-corner-radius` custom property
+  (theme setting, already at its 40px max = a true pill at badge scale) and the
+  shared `.badge` component styles — no hardcoded hex here.
+
+  Accepts:
+  - id: {String} DOM id for the badge; referenced by the card title's aria-labelledby
+  - text: {String} already-translated label text (e.g. `'products.product.on_sale' | t`)
+  - scheme: {String} color scheme id, e.g. settings.sale_badge_color_scheme
+
+  Usage:
+  {% render 'badge-pill', id: badge_id, text: 'products.product.on_sale' | t, scheme: settings.sale_badge_color_scheme %}
+{% endcomment %}
+<span id="{{ id }}" class="badge badge--bottom-left color-{{ scheme }}">{{- text -}}</span>
