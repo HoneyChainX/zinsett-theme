@@ -13,6 +13,7 @@ jobs:
         uses: shopify/lighthouse-ci-action@v1
         with:
           store: ${{ secrets.SHOP_STORE }}
+          password: ${{ secrets.SHOP_PASSWORD }}
           access_token: ${{ secrets.SHOP_ACCESS_TOKEN }}
           collection_handle: dogs
           product_handle: washable-dog-cooling-mat-ice-silk-cooling-mat-for-dogs-pet-self-cooling-pad-blanket-dog-cool-pad-for-indoor-outdoor-car-seats-blue-40x28-in
