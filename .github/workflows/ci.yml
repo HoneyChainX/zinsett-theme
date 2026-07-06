@@ -1,5 +1,8 @@
 name: CI
 on: [push]
+permissions:
+  contents: read
+  checks: write
 jobs:
   lhci:
     name: Lighthouse (budget perf >= 0.85 mobile on /, /collections/dogs, cooling-mat PDP)
