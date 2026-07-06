@@ -1,0 +1,109 @@
+{% comment %}
+  ZINSETT "Warm Field" design tokens — Design Brief §2.1 (canonical source).
+
+  Emits --zinsett-* CSS custom properties for every token in §2.1 so
+  sections/snippets/assets can consume them instead of hardcoding hex,
+  font stacks, spacing, radius, shadow, motion, or grid values.
+
+  - Typography family/style are settings-driven (font_picker: type_header_font
+    for Fraunces, type_body_font for Inter) so Theme Settings > Typography
+    stays the single control surface; the §2.1 fallback stacks are literal
+    (not settings-driven, per spec) and appended after the picked font.
+  - Weight tokens are the fixed values §2.1 calls for (Fraunces 600/700,
+    Inter 400/500/600), independent of whichever single weight the merchant
+    has selected in the font picker.
+  - Colors, spacing, radius, shadow, motion, and grid are literal per §2.1 —
+    this file is the one place those hex/values are allowed to live.
+
+  Rendered from layout/theme.liquid before Dawn's own settings-driven
+  `:root` / `.color-*` style block so Dawn's cascade still wins for its own
+  --color-*/--font-*-family variables while --zinsett-* stays available
+  everywhere as the brand-token layer.
+{% endcomment %}
+{% style %}
+  :root {
+    /* color/* — Brief §2.1 */
+    --zinsett-color-ink: #173F35;
+    --zinsett-color-ink-soft: #2E5A4E;
+    --zinsett-color-paper: #F6F0E6;
+    --zinsett-color-card: #FFFFFF;
+    --zinsett-color-terra: #D97A45;
+    --zinsett-color-terra-deep: #B85C2E;
+    --zinsett-color-gold: #C9A227;
+    --zinsett-color-green: #3E7C4F;
+    --zinsett-color-red: #B4442C;
+    --zinsett-color-line: #E3D9C8;
+    --zinsett-color-muted: #6E7A72;
+
+    /* type/display — Fraunces 600/700; fallback Iowan Old Style, Georgia */
+    --zinsett-font-display-family:
+      {{ settings.type_header_font.family }}, 'Iowan Old Style', Georgia, serif;
+    --zinsett-font-display-style: {{ settings.type_header_font.style }};
+    --zinsett-font-display-weight-semibold: 600;
+    --zinsett-font-display-weight-bold: 700;
+
+    /* type/body — Inter 400/500/600; fallback Avenir Next, system-ui */
+    --zinsett-font-body-family:
+      {{ settings.type_body_font.family }}, 'Avenir Next', system-ui, sans-serif;
+    --zinsett-font-body-style: {{ settings.type_body_font.style }};
+    --zinsett-font-body-weight-regular: 400;
+    --zinsett-font-body-weight-medium: 500;
+    --zinsett-font-body-weight-semibold: 600;
+
+    /* type/scale — 12 / 13.5 / 15 (base) / 18 / 22 / 27 / 34 / 44, 1.25 modular-ish */
+    --zinsett-type-scale-12: 1.2rem;
+    --zinsett-type-scale-13-5: 1.35rem;
+    --zinsett-type-scale-15: 1.5rem;
+    --zinsett-type-scale-18: 1.8rem;
+    --zinsett-type-scale-22: 2.2rem;
+    --zinsett-type-scale-27: 2.7rem;
+    --zinsett-type-scale-34: 3.4rem;
+    --zinsett-type-scale-44: 4.4rem;
+    --zinsett-type-scale-base: var(--zinsett-type-scale-15);
+
+    /* Named aliases from Brief §7 F-2 text styles (Fraunces display/H, Inter body) */
+    --zinsett-type-display-44: var(--zinsett-type-scale-44);
+    --zinsett-type-display-34: var(--zinsett-type-scale-34);
+    --zinsett-type-h2-27: var(--zinsett-type-scale-27);
+    --zinsett-type-h3-22: var(--zinsett-type-scale-22);
+    --zinsett-type-body-15: var(--zinsett-type-scale-15);
+    --zinsett-type-small-13-5: var(--zinsett-type-scale-13-5);
+    --zinsett-type-caption-12: var(--zinsett-type-scale-12);
+
+    /* space — 4 / 8 / 16 / 24 / 40 / 64 */
+    --zinsett-space-4: 0.4rem;
+    --zinsett-space-8: 0.8rem;
+    --zinsett-space-16: 1.6rem;
+    --zinsett-space-24: 2.4rem;
+    --zinsett-space-40: 4rem;
+    --zinsett-space-64: 6.4rem;
+
+    /* radius — 4px cards+inputs · 999px pills/badges */
+    --zinsett-radius-card: 0.4rem;
+    --zinsett-radius-input: 0.4rem;
+    --zinsett-radius-pill: 999px;
+
+    /* shadow — one level only: 0 2px 8px rgba(23,63,53,.08) */
+    --zinsett-shadow: 0 2px 8px rgba(23, 63, 53, 0.08);
+
+    /* motion — 160ms ease-out hovers · 320ms ease reveal (reduce-motion below) */
+    --zinsett-motion-hover-duration: 160ms;
+    --zinsett-motion-hover-easing: ease-out;
+    --zinsett-motion-reveal-duration: 320ms;
+    --zinsett-motion-reveal-easing: ease;
+
+    /* grid — 12-col desktop, 1200px max, 24px gutter · mobile 4-col, 16px gutter */
+    --zinsett-grid-columns: 12;
+    --zinsett-grid-columns-mobile: 4;
+    --zinsett-grid-max-width: 1200px;
+    --zinsett-grid-gutter: 2.4rem;
+    --zinsett-grid-gutter-mobile: 1.6rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --zinsett-motion-hover-duration: 0ms;
+      --zinsett-motion-reveal-duration: 0ms;
+    }
+  }
+{% endstyle %}

@@ -65,6 +65,12 @@
 
     {{ content_for_header }}
 
+    {%- comment -%} ZINSETT Warm Field tokens — render before Dawn's own
+      settings-driven CSS variables below so brand tokens are available
+      first and Dawn's cascade still wins for its own --color-*/--font-*
+      variables. {%- endcomment -%}
+    {% render 'zinsett-tokens' %}
+
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
       assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
