@@ -15,6 +15,7 @@
         "tile-dogs": {
           "type": "tile",
           "settings": {
+            "collection": "dogs",
             "title": "Dogs",
             "show_badge": false,
             "badge_text": "NEW"
@@ -23,6 +24,7 @@
         "tile-cats": {
           "type": "tile",
           "settings": {
+            "collection": "cats",
             "title": "Cats",
             "show_badge": false,
             "badge_text": "NEW"
@@ -31,6 +33,7 @@
         "tile-birds": {
           "type": "tile",
           "settings": {
+            "collection": "birds",
             "title": "Birds",
             "show_badge": true,
             "badge_text": "NEW"
@@ -151,6 +154,7 @@
       "type": "zinsett-bird-band",
       "settings": {
         "title": "The Bird Shop",
+        "collection": "birds",
         "products_to_show": 4,
         "color_scheme": "scheme-6"
       }
