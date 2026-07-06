@@ -1,54 +1,73 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "zinsett_hero_editorial": {
+      "type": "zinsett-hero-editorial",
+      "settings": {
+        "heading": "Summer comfort, sorted.",
+        "button_label": "Shop the Summer Edit",
+        "image_height": "large",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "zinsett_category_tiles": {
+      "type": "zinsett-category-tiles",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "tile-dogs": {
+          "type": "tile",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "collection": "dogs",
+            "title": "Dogs",
+            "show_badge": false,
+            "badge_text": "NEW"
           }
         },
-        "button": {
-          "type": "buttons",
+        "tile-cats": {
+          "type": "tile",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "collection": "cats",
+            "title": "Cats",
+            "show_badge": false,
+            "badge_text": "NEW"
+          }
+        },
+        "tile-birds": {
+          "type": "tile",
+          "settings": {
+            "collection": "birds",
+            "title": "Birds",
+            "show_badge": true,
+            "badge_text": "NEW"
+          }
+        },
+        "tile-home": {
+          "type": "tile",
+          "settings": {
+            "title": "Home",
+            "show_badge": false,
+            "badge_text": "NEW"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "tile-dogs",
+        "tile-cats",
+        "tile-birds",
+        "tile-home"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "color_scheme": "scheme-1"
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
+        "title": "",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
         "description_style": "body",
         "collection": "all",
-        "products_to_show": 8,
+        "products_to_show": 4,
         "columns_desktop": 4,
         "color_scheme": "scheme-1",
         "full_width": false,
@@ -56,20 +75,131 @@
         "view_all_style": "solid",
         "enable_desktop_slider": false,
         "swipe_on_mobile": false,
-        "image_ratio": "adapt",
+        "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
         "columns_mobile": "2",
-        "padding_top": 44,
+        "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "zinsett_bundle": {
+      "type": "zinsett-bundle",
+      "blocks": {
+        "item-fountain": {
+          "type": "item",
+          "settings": {
+            "title": "Solar Bird-Bath Fountain"
+          }
+        },
+        "item-feeder": {
+          "type": "item",
+          "settings": {
+            "title": "Glass Hummingbird Feeder 2-pack"
+          }
+        }
+      },
+      "block_order": [
+        "item-fountain",
+        "item-feeder"
+      ],
+      "settings": {
+        "eyebrow": "Bundle",
+        "heading": "Backyard Oasis",
+        "bundle_price": "$69",
+        "original_price": "$74",
+        "savings_label": "Save $5",
+        "button_label": "Shop the bundle",
+        "color_scheme": "scheme-2"
+      }
+    },
+    "zinsett_value_props": {
+      "type": "zinsett-value-props",
+      "blocks": {
+        "value-curated": {
+          "type": "value_prop",
+          "settings": {
+            "icon": "icon-paw-print",
+            "heading": "Curated by pet people"
+          }
+        },
+        "value-delivery": {
+          "type": "value_prop",
+          "settings": {
+            "icon": "icon-truck",
+            "heading": "Tracked US delivery"
+          }
+        },
+        "value-returns": {
+          "type": "value_prop",
+          "settings": {
+            "icon": "icon-return",
+            "heading": "Easy returns"
+          }
+        }
+      },
+      "block_order": [
+        "value-curated",
+        "value-delivery",
+        "value-returns"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
+    },
+    "zinsett_bird_band": {
+      "type": "zinsett-bird-band",
+      "settings": {
+        "title": "The Bird Shop",
+        "collection": "birds",
+        "products_to_show": 4,
+        "color_scheme": "scheme-6"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Subscribe to our emails",
+            "heading_size": "h1"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Good finds for pets and home. One email a week, no noise.</p>"
+          }
+        },
+        "email_form": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email_form"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "zinsett_hero_editorial",
+    "zinsett_category_tiles",
+    "featured_collection",
+    "zinsett_bundle",
+    "zinsett_value_props",
+    "zinsett_bird_band",
+    "newsletter"
   ]
 }

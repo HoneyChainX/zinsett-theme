@@ -1,0 +1,31 @@
+/* ZINSETT Bird-niche editorial band — Design Brief §6 Home #6. Tokens only, no hardcoded hex. */
+
+.zinsett-bird-band__header {
+  text-align: center;
+}
+
+.zinsett-bird-band__heading {
+  margin: 0;
+  font-family: var(--zinsett-font-display-family);
+  font-weight: var(--zinsett-font-display-weight-bold);
+  font-size: var(--zinsett-type-scale-34);
+  color: var(--zinsett-color-gold);
+}
+
+.zinsett-bird-band__rule {
+  display: block;
+  margin: var(--zinsett-space-8) auto 0;
+  width: 6rem;
+  height: 2px;
+  background-color: var(--zinsett-color-gold);
+}
+
+.zinsett-bird-band__description {
+  margin: var(--zinsett-space-16) auto 0;
+  max-width: 60rem;
+  font-family: var(--zinsett-font-body-family);
+}
+
+.zinsett-bird-band__view-all {
+  margin-top: var(--zinsett-space-24);
+}

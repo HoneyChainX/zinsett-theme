@@ -1,0 +1,166 @@
+{% comment %}
+  ZINSETT Bird-niche editorial band — Design Brief §6 Home #6.
+
+  Ink background, gold serif headline "The Bird Shop" with a thin gold
+  rule, 4 products from the Birds collection. Reuses Dawn's card-product
+  snippet/product-grid pattern (same as featured-collection) so quick-add,
+  ratings, etc. stay in sync with whatever C-4 does to card-product; only
+  the section shell (ink scheme + gold headline treatment) is new.
+
+  Ships on the new scheme-6 (ink bg / paper text / gold secondary label)
+  added to config/settings_data.json in this branch — Brief §6 calls for
+  an ink band with no existing color scheme matching it (scheme-3's
+  background is muted, not ink).
+
+  Asset slot awaiting media-forge: Brief §10 H-4 (budgie on a rope perch,
+  1:1 + 16:9) — not consumed directly here (product images come from the
+  Birds collection) but relevant if a background/accent image is added
+  later.
+{% endcomment %}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'section-zinsett-bird-band.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="zinsett-bird-band page-width section-{{ section.id }}-padding">
+    <div class="zinsett-bird-band__header title-wrapper title-wrapper--no-top-margin">
+      {%- if section.settings.title != blank -%}
+        <h2 class="zinsett-bird-band__heading">{{ section.settings.title }}</h2>
+        <span class="zinsett-bird-band__rule" aria-hidden="true"></span>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <div class="zinsett-bird-band__description rte">{{ section.settings.description }}</div>
+      {%- endif -%}
+    </div>
+
+    <ul
+      class="grid product-grid contains-card contains-card--product{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} grid--4-col-desktop grid--2-col-tablet-down"
+      role="list"
+    >
+      {%- if section.settings.collection.products.size > 0 -%}
+        {%- assign skip_card_product_styles = false -%}
+        {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+          <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+            {% render 'card-product',
+              card_product: product,
+              media_aspect_ratio: 'square',
+              lazy_load: true,
+              show_secondary_image: false,
+              skip_styles: skip_card_product_styles,
+              section_id: section.id,
+              product_view_context: 'collection'
+            %}
+          </li>
+          {%- assign skip_card_product_styles = true -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <li class="grid__item">
+            {% render 'card-product', media_aspect_ratio: 'square', lazy_load: false, placeholder_image: 'product-apparel-' | append: i %}
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+
+    {%- if section.settings.collection != blank -%}
+      <div class="center zinsett-bird-band__view-all">
+        <a href="{{ section.settings.collection.url }}" class="button button--secondary">
+          {{ 'sections.featured_collection.view_all' | t }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "ZINSETT Bird band",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "The Bird Shop"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "info": "No sentence-level copy in the Brief yet — leave blank until copy-brand-guardian supplies it."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Point this at the Birds collection."
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-6"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "ZINSETT Bird band",
+      "settings": {
+        "title": "The Bird Shop",
+        "color_scheme": "scheme-6"
+      }
+    }
+  ]
+}
+{% endschema %}
