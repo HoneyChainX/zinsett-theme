@@ -119,6 +119,10 @@
       "sku": "SKU",
       "on_sale": "Sale",
       "product_variants": "Product variants",
+      "zinsett_shipping_eta_html": "Arrives {{ start }}–{{ end }} to most US addresses — tracked door-to-door.",
+      "zinsett_trust_secure": "Tap secure",
+      "zinsett_trust_shipping": "8–15 day tracked",
+      "zinsett_trust_returns": "30-day returns",
       "media": {
         "gallery_viewer": "Gallery Viewer",
         "load_image": "Load image {{ index }} in gallery view",

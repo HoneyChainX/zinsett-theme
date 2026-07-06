@@ -1,0 +1,68 @@
+/*
+  ZINSETT PDP overrides (Design Brief §5/§6, main-product section).
+  Tokens only, no hardcoded hex — colors/typography continue to come from
+  Dawn's own --color-*/--font-* custom properties (Warm Field palette via
+  C-2's scheme remap) plus the --zinsett-* scale for anything §2.1-specific
+  Dawn doesn't already expose (font-size 27px, spacing, radius, shadow).
+*/
+
+/* Brief §6: "title 27px serif" (Dawn's own h1 renders far larger by default). */
+.product__title--zinsett h1 {
+  font-size: var(--zinsett-type-h2-27);
+}
+
+/* Brief §6: "'Pairs well with' 3-up" – complementary-products already renders
+   as a 1/2/3-col slider; no override needed beyond the products_per_page: 3
+   template default (templates/product.json), so this rule is intentionally
+   absent here.
+*/
+
+/* Brief §6: "ShippingETA line directly under ATC", then TrustStrip. */
+.product__eta-trust {
+  margin-top: var(--zinsett-space-16);
+}
+
+.zinsett-shipping-eta {
+  display: flex;
+  align-items: center;
+  gap: var(--zinsett-space-8);
+  margin: 0 0 var(--zinsett-space-16);
+  color: var(--zinsett-color-ink-soft);
+}
+
+.zinsett-shipping-eta__icon {
+  flex-shrink: 0;
+  width: 1.8rem;
+  height: 1.8rem;
+  color: var(--zinsett-color-green);
+}
+
+.zinsett-shipping-eta__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Brief C-5: "sticky mobile ATC" — sticks the real buy-buttons markup (not a
+   duplicate) to the bottom of the viewport as the customer scrolls past it,
+   and stops sticking once its container's bottom edge is reached (no footer
+   overlap). `position: sticky` is unaffected by the `.scroll-trigger`
+   entrance-animation `transform` on an ancestor (that quirk only applies to
+   `position: fixed`/`absolute`), so this works whether or not
+   settings.animations_reveal_on_scroll is enabled.
+*/
+@media screen and (max-width: 749px) {
+  .product-form--sticky-mobile {
+    position: sticky;
+    bottom: 0;
+    z-index: 3;
+    background: rgb(var(--color-background));
+    padding-block: var(--zinsett-space-8);
+    box-shadow: var(--zinsett-shadow);
+  }
+}
+
+/* FAQ accordion (custom.faq metafield) heading, sized to match the
+   AccordionSpec tabs' own h4 accordion__title rhythm. */
+.product__faq-heading {
+  margin: var(--zinsett-space-24) 0 var(--zinsett-space-8);
+}

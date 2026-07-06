@@ -1,0 +1,54 @@
+{% comment %}
+  Server-rendered, zero-JS FAQ accordion for a product's `custom.faq`
+  metafield (type: json — an array of {q, a} objects; ~87 products
+  populated per the catalog sweep).
+
+  Renders nothing when the metafield is absent/empty (no empty heading, no
+  empty wrapper) so it's safe to always include on every PDP regardless of
+  whether that product has FAQ content yet.
+
+  Reuses Dawn's existing `.accordion` / `.product__accordion` component
+  (component-accordion.css, already loaded by sections/main-product.liquid)
+  with native <details>/<summary> — same markup pattern as the
+  `collapsible_tab` block, so FAQ entries are visually identical to the
+  AccordionSpec (Details/Shipping/Returns) tabs above them with no new CSS
+  and no JS.
+
+  Accepts:
+  - product: {Object} product object
+  - heading: {String} section heading (optional; defaults to "FAQ")
+  - section_id: {String} unique id fragment to namespace DOM ids (optional)
+
+  Usage:
+  {% render 'product-faq-accordion', product: product, heading: 'FAQ', section_id: section.id %}
+{% endcomment %}
+{%- liquid
+  assign faq_items = product.metafields.custom.faq
+  assign faq_heading = heading | default: 'FAQ'
+-%}
+{%- if faq_items != blank -%}
+  <div class="product__faq quick-add-hidden">
+    {%- if faq_heading != blank -%}
+      <h2 class="h4 product__faq-heading">{{ faq_heading }}</h2>
+    {%- endif -%}
+    {%- for faq_item in faq_items -%}
+      {%- assign faq_question = faq_item.q -%}
+      {%- assign faq_answer = faq_item.a -%}
+      {%- if faq_question != blank and faq_answer != blank -%}
+        <div class="product__accordion accordion">
+          <details id="Faq-{{ section_id }}-{{ forloop.index }}">
+            <summary>
+              <div class="summary__title">
+                <h3 class="h4 accordion__title inline-richtext">{{ faq_question }}</h3>
+              </div>
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </summary>
+            <div class="accordion__content rte">
+              <p>{{ faq_answer }}</p>
+            </div>
+          </details>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

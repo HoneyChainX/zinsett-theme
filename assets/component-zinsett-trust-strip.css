@@ -1,0 +1,48 @@
+/*
+  ZINSETT TrustStrip (Design Brief §5 `TrustStrip`). Horizontal row >=640px,
+  stacked below it. Tokens only, no hardcoded hex.
+*/
+
+.trust-strip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--zinsett-space-16);
+  margin: var(--zinsett-space-16) 0;
+  padding: var(--zinsett-space-16) 0;
+  border-top: 0.1rem solid var(--zinsett-color-line);
+  border-bottom: 0.1rem solid var(--zinsett-color-line);
+}
+
+@media screen and (min-width: 640px) {
+  .trust-strip {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: var(--zinsett-space-24);
+  }
+}
+
+.trust-strip__item {
+  display: flex;
+  align-items: center;
+  gap: var(--zinsett-space-8);
+  font-size: var(--zinsett-type-small-13-5);
+  color: var(--zinsett-color-ink-soft);
+}
+
+@media screen and (min-width: 640px) {
+  .trust-strip__item {
+    flex: 1 1 0;
+  }
+}
+
+.trust-strip__icon {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  color: var(--zinsett-color-terra);
+}
+
+.trust-strip__icon svg {
+  width: 100%;
+  height: 100%;
+}
