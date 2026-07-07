@@ -2,6 +2,7 @@
 {{ 'component-totals.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+{{ 'component-zinsett-trust-strip.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -24,6 +25,19 @@
 >
   <div class="page-width">
     <div class="cart__footer isolate section-{{ section.id }}-padding">
+      {%- comment -%}
+        Design Brief C-6: TrustStrip reused on the cart page. "30-day
+        returns" stays hidden until the merchant confirms the returns
+        policy page is live (Theme settings > Cart).
+      {%- endcomment -%}
+      {%- liquid
+        assign zinsett_hide_returns = true
+        if settings.zinsett_returns_policy_ready
+          assign zinsett_hide_returns = false
+        endif
+      -%}
+      {%- render 'trust-strip', hide_returns: zinsett_hide_returns -%}
+
       {%- if settings.show_cart_note -%}
         <cart-note class="cart__note field">
           <label for="Cart-note">{{ 'sections.cart.note' | t }}</label>

@@ -18,6 +18,18 @@
   {{ 'component-zinsett-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-zinsett-trust-strip.css' | asset_url | stylesheet_tag }}
 
+  {%- comment -%}
+    Design Brief C-6: TrustStrip's "30-day returns" item is a single
+    setting-driven toggle shared with the cart drawer, cart page, and
+    footer (Theme settings > Cart > "Returns policy page is live").
+  {%- endcomment -%}
+  {%- liquid
+    assign zinsett_hide_returns = true
+    if settings.zinsett_returns_policy_ready
+      assign zinsett_hide_returns = false
+    endif
+  -%}
+
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
     {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
@@ -520,7 +532,7 @@
                   {%- endcomment -%}
                   <div class="product__eta-trust quick-add-hidden">
                     {%- render 'shipping-eta' -%}
-                    {%- render 'trust-strip' -%}
+                    {%- render 'trust-strip', hide_returns: zinsett_hide_returns -%}
                   </div>
                 {%- when 'rating' -%}
                   {%- if product.metafields.reviews.rating.value != blank -%}

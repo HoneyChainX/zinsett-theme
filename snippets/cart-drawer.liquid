@@ -7,9 +7,21 @@
 
 {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-zinsett-trust-strip.css' | asset_url | stylesheet_tag }}
+{{ 'component-zinsett-shipping-bar.css' | asset_url | stylesheet_tag }}
 
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  # Design Brief C-6: TrustStrip's "30-day returns" item is hidden until the
+  # merchant confirms the returns policy page is published (see the
+  # "Returns policy page is live" setting under Theme settings > Cart).
+  assign zinsett_hide_returns = true
+  if settings.zinsett_returns_policy_ready
+    assign zinsett_hide_returns = false
+  endif
+-%}
 
 <style>
   .drawer {
@@ -32,6 +44,7 @@
           <div class="cart-drawer__warnings center{% if settings.cart_drawer_collection != blank %} cart-drawer__warnings--has-collection{% endif %}">
             <div class="cart-drawer__empty-content">
               <h2 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h2>
+              <p class="cart__empty-subtext">{{ 'sections.cart.empty_subtext' | t }}</p>
               <button
                 class="drawer__close"
                 type="button"
@@ -488,6 +501,13 @@
         </form>
       </cart-drawer-items>
       <div class="drawer__footer">
+        {%- comment -%}
+          Design Brief §6 CartDrawer order: line items, free-shipping
+          progress bar to $35, TrustStrip, then the checkout CTA.
+        {%- endcomment -%}
+        {%- render 'zinsett-shipping-bar' -%}
+        {%- render 'trust-strip', hide_returns: zinsett_hide_returns -%}
+
         {%- if settings.show_cart_note -%}
           <details id="Details-CartDrawer">
             <summary>

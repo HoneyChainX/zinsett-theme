@@ -1,0 +1,39 @@
+{% comment %}
+  Renders the ZINSETT free-shipping progress bar (Design Brief §6 cart drawer
+  `CartDrawer`: "+free-ship progress bar at $35", green fill = color/green /
+  --zinsett-color-green). Server-rendered from cart.total_price against a
+  $35 (3500-cent) threshold — no client JS beyond Dawn's existing cart-drawer
+  re-render, which already re-fetches `section_id=cart-drawer` (or
+  `main-cart-footer`'s .js-contents) on every line-item add/update/remove, so
+  this markup refreshes for free on every cart mutation.
+
+  Tokens only (component-zinsett-shipping-bar.css) — no hardcoded hex.
+
+  Usage:
+  {% render 'zinsett-shipping-bar' %}
+{% endcomment %}
+{%- liquid
+  assign zinsett_free_shipping_threshold = 3500
+  assign zinsett_shipping_remaining = zinsett_free_shipping_threshold | minus: cart.total_price
+  assign zinsett_shipping_percent = cart.total_price | times: 100 | divided_by: zinsett_free_shipping_threshold
+  assign zinsett_shipping_percent = zinsett_shipping_percent | at_most: 100 | at_least: 0
+-%}
+<div class="zinsett-shipping-bar" role="status">
+  <p class="zinsett-shipping-bar__message">
+    {%- if zinsett_shipping_remaining > 0 -%}
+      {%- assign zinsett_shipping_remaining_money = zinsett_shipping_remaining | money -%}
+      {{ 'sections.cart.free_shipping.progress' | t: amount: zinsett_shipping_remaining_money }}
+    {%- else -%}
+      {{ 'sections.cart.free_shipping.unlocked' | t }}
+    {%- endif -%}
+  </p>
+  <div
+    class="zinsett-shipping-bar__track"
+    role="progressbar"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="{{ zinsett_shipping_percent }}"
+  >
+    <div class="zinsett-shipping-bar__fill" style="width: {{ zinsett_shipping_percent }}%;"></div>
+  </div>
+</div>

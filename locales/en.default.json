@@ -266,7 +266,7 @@
       }
     },
     "404": {
-      "title": "Page not found",
+      "title": "This page wandered off. The rest of the store is right where you left it.",
       "subtext": "404"
     }
   },
@@ -294,8 +294,13 @@
       "estimated_total": "Estimated total",
       "new_estimated_total": "New estimated total",
       "note": "Order special instructions",
-      "checkout": "Check out",
+      "checkout": "Complete secure checkout",
       "empty": "Your cart is empty",
+      "empty_subtext": "Your pet doesn't know what it's missing yet — start with our summer cooling picks.",
+      "free_shipping": {
+        "progress": "You're {{ amount }} from free shipping",
+        "unlocked": "You've unlocked free US shipping"
+      },
       "product_disclosure": "Product disclosure",
       "product_disclosures": "Product disclosures",
       "cart_error": "There was an error while updating your cart. Please try again.",

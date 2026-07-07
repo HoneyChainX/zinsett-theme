@@ -336,6 +336,13 @@
             "label": "Collection",
             "info": "Shown when cart drawer is empty"
           }
+        },
+        "zinsett_trust_strip": {
+          "header": "ZINSETT trust strip",
+          "returns_policy_ready": {
+            "label": "Returns policy page is live",
+            "info": "Shows the \"30-day returns\" item in the trust strip on product pages, cart, and footer. Leave unchecked until your returns policy page is published."
+          }
         }
       }
     },
