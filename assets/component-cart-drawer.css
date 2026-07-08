@@ -119,8 +119,12 @@ cart-drawer-items.is-empty + .drawer__footer {
   display: none;
 }
 
-.drawer__footer > details {
+.drawer__footer > details:first-child {
   margin-top: -1.5rem;
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.2);
+}
+
+.drawer__footer > details {
   border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.2);
 }
 

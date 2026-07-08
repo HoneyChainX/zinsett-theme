@@ -4,6 +4,7 @@
 {{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
 {{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
 {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+{{ 'component-zinsett-trust-strip.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .footer {
@@ -249,6 +250,21 @@
       </div>
     {%- endunless -%}
   {%- endif -%}
+
+  {%- comment -%}
+    Design Brief C-6: TrustStrip reused site-wide in the footer. "30-day
+    returns" stays hidden until the merchant confirms the returns policy
+    page is live (Theme settings > Cart).
+  {%- endcomment -%}
+  {%- liquid
+    assign zinsett_hide_returns = true
+    if settings.zinsett_returns_policy_ready
+      assign zinsett_hide_returns = false
+    endif
+  -%}
+  <div class="page-width footer__zinsett-trust-strip">
+    {%- render 'trust-strip', hide_returns: zinsett_hide_returns -%}
+  </div>
 
   <div
     class="footer__content-bottom{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
