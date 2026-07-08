@@ -1,0 +1,39 @@
+{% comment %}
+  Renders the ZINSETT ShippingETA line (Design Brief §5 `ShippingETA`, §6 PDP
+  "ShippingETA line directly under ATC").
+
+  Computes the 8-15 day AutoDS US-delivery window (Brief §1) from "today" and
+  renders the §9 copy verbatim:
+    "Arrives {{start}}–{{end}} to most US addresses — tracked door-to-door."
+  (en dash between the date range, em dash before "tracked", per §9.)
+
+  No settings/inputs required — the window is always "today + 8 days" through
+  "today + 15 days", recomputed on every render (no caching), so it never goes
+  stale for repeat visitors. Dates render as "Mon D" (e.g. "Jul 16"), or
+  "Mon D–Mon D" instead of "Mon D–D" when the window crosses a month boundary.
+
+  Usage:
+  {% render 'shipping-eta' %}
+{% endcomment %}
+{%- liquid
+  assign now_epoch = 'now' | date: '%s' | plus: 0
+  assign start_epoch = now_epoch | plus: 691200
+  assign end_epoch = now_epoch | plus: 1296000
+  assign start_month = start_epoch | date: '%b'
+  assign end_month = end_epoch | date: '%b'
+  assign start_day = start_epoch | date: '%-d'
+  assign end_day = end_epoch | date: '%-d'
+  if start_month == end_month
+    assign eta_start = start_month | append: ' ' | append: start_day
+    assign eta_end = end_day
+  else
+    assign eta_start = start_month | append: ' ' | append: start_day
+    assign eta_end = end_month | append: ' ' | append: end_day
+  endif
+-%}
+<p class="zinsett-shipping-eta caption-large">
+  <span class="svg-wrapper zinsett-shipping-eta__icon" aria-hidden="true">
+    {{- 'icon-truck.svg' | inline_asset_content -}}
+  </span>
+  {{- 'products.product.zinsett_shipping_eta_html' | t: start: eta_start, end: eta_end -}}
+</p>

@@ -1,0 +1,44 @@
+{% comment %}
+  Renders the ZINSETT TrustStrip (Design Brief §5 `TrustStrip`): a 3-item
+  payment/shipping/returns trust row — "🔒 Tap secure · 🚚 8–15 day tracked ·
+  ↩ 30-day returns" — using Dawn's existing inline SVG icon set in place of
+  the emoji placeholders (icons are decorative, aria-hidden; the label text
+  carries the meaning). Horizontal row ≥640px, stacked below it, per §5.
+  Tokens only (component-zinsett-trust-strip.css) — no hardcoded hex.
+
+  This snippet is intentionally decoupled from the PDP: `sections/main-product.
+  liquid` is the first caller (Brief C-5, rendered directly under the ATC
+  button), and it's written to be reused as-is from the cart drawer, cart
+  page, and footer in Brief C-6 without modification.
+
+  Accepts:
+  - hide_returns: {Boolean} omit the "30-day returns" item (optional; C-6 is
+    expected to drive this from a theme setting once the returns policy page
+    is live — defaults to false/shown since that setting doesn't exist yet).
+
+  Usage:
+  {% render 'trust-strip' %}
+  {% render 'trust-strip', hide_returns: true %}
+{% endcomment %}
+<div class="trust-strip" role="list">
+  <div class="trust-strip__item" role="listitem">
+    <span class="trust-strip__icon svg-wrapper" aria-hidden="true">
+      {{- 'icon-lock.svg' | inline_asset_content -}}
+    </span>
+    <span>{{ 'products.product.zinsett_trust_secure' | t }}</span>
+  </div>
+  <div class="trust-strip__item" role="listitem">
+    <span class="trust-strip__icon svg-wrapper" aria-hidden="true">
+      {{- 'icon-truck.svg' | inline_asset_content -}}
+    </span>
+    <span>{{ 'products.product.zinsett_trust_shipping' | t }}</span>
+  </div>
+  {%- unless hide_returns -%}
+    <div class="trust-strip__item" role="listitem">
+      <span class="trust-strip__icon svg-wrapper" aria-hidden="true">
+        {{- 'icon-return.svg' | inline_asset_content -}}
+      </span>
+      <span>{{ 'products.product.zinsett_trust_returns' | t }}</span>
+    </div>
+  {%- endunless -%}
+</div>

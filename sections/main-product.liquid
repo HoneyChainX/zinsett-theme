@@ -15,6 +15,8 @@
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+  {{ 'component-zinsett-product.css' | asset_url | stylesheet_tag }}
+  {{ 'component-zinsett-trust-strip.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -98,7 +100,7 @@
                     {{- block.settings.text -}}
                   </p>
                 {%- when 'title' -%}
-                  <div class="product__title" {{ block.shopify_attributes }}>
+                  <div class="product__title product__title--zinsett" {{ block.shopify_attributes }}>
                     <h1>{{ product.title | escape }}</h1>
                     <a href="{{ product.url }}" class="product__title">
                       <h2 class="h1">
@@ -492,13 +494,34 @@
                     product_form_id: product_form_id
                   %}
                 {%- when 'buy_buttons' -%}
-                  {%- render 'buy-buttons',
-                    block: block,
-                    product: product,
-                    product_form_id: product_form_id,
-                    section_id: section.id,
-                    show_pickup_availability: true
-                  -%}
+                  {%- comment -%}
+                    Brief §6 PDP: terra full-width ATC, sticky on mobile so it
+                    stays reachable while the customer scrolls the accordion /
+                    complementary-products content below. `position: sticky`
+                    (not `fixed`) on the real buy-buttons markup — no duplicate
+                    button, so Dawn's existing variant-change JS (which toggles
+                    this exact #ProductSubmitButton-{{ section.id }} element)
+                    keeps working with zero new JS.
+                  {%- endcomment -%}
+                  <div class="product-form--sticky-mobile">
+                    {%- render 'buy-buttons',
+                      block: block,
+                      product: product,
+                      product_form_id: product_form_id,
+                      section_id: section.id,
+                      show_pickup_availability: true
+                    -%}
+                  </div>
+                  {%- comment -%}
+                    Brief §6: "ShippingETA line directly under ATC", then
+                    TrustStrip. Rendered here (inside the buy_buttons case, not
+                    as separate blocks) so they always stay glued to the ATC
+                    button even if a merchant reorders other blocks.
+                  {%- endcomment -%}
+                  <div class="product__eta-trust quick-add-hidden">
+                    {%- render 'shipping-eta' -%}
+                    {%- render 'trust-strip' -%}
+                  </div>
                 {%- when 'rating' -%}
                   {%- if product.metafields.reviews.rating.value != blank -%}
                     <div class="rating-wrapper">
@@ -688,6 +711,17 @@
                   </product-recommendations>
                 {%- when 'icon-with-text' -%}
                   {% render 'icon-with-text', block: block %}
+                {%- when 'product_faq' -%}
+                  {%- liquid
+                    assign faq_heading = block.settings.heading
+                  -%}
+                  <div class="quick-add-hidden" {{ block.shopify_attributes }}>
+                    {%- render 'product-faq-accordion',
+                      product: product,
+                      heading: faq_heading,
+                      section_id: section.id
+                    -%}
+                  </div>
               {%- endcase -%}
             {%- endfor -%}
             <a href="{{ product.url }}" class="link product__view-details animate-arrow">
@@ -2142,6 +2176,23 @@
           "default": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.default",
           "label": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.label",
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
+        }
+      ]
+    },
+    {
+      "type": "product_faq",
+      "name": "Product FAQ",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Reads the product's custom.faq metafield (type: json, an array of {q, a} objects) and renders a zero-JS details/summary accordion. Renders nothing when the metafield is empty."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "FAQ"
         }
       ]
     }
