@@ -38,22 +38,27 @@
   min-height: 60rem;
 }
 
+/* Hero mount: structural ink seam + hard offset shadow (FINAL-SPEC §1.4 —
+   hero showpieces sit at the 8px shadow scale). */
 .zinsett-hero__scrim {
   max-width: 46rem;
   margin: var(--zinsett-space-24);
   padding: var(--zinsett-space-40) var(--zinsett-space-24);
+  border: var(--zinsett-border-structural);
   border-radius: var(--zinsett-radius-card);
-  box-shadow: var(--zinsett-shadow);
+  box-shadow: var(--zinsett-shadow-lg);
 }
 
+/* Eyebrow role: ledger-mono kicker, barn red (see bundle eyebrow comment —
+   kraft-deep is reserved for non-text rules, not readable label text). */
 .zinsett-hero__eyebrow {
   margin: 0 0 var(--zinsett-space-8);
-  font-family: var(--zinsett-font-body-family);
-  font-weight: var(--zinsett-font-body-weight-semibold);
-  font-size: var(--zinsett-type-scale-13-5);
-  letter-spacing: 0.08em;
+  font-family: var(--zinsett-font-mono-family);
+  font-weight: var(--zinsett-font-mono-weight-bold);
+  font-size: var(--zinsett-type-eyebrow);
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--zinsett-color-gold);
+  color: var(--zinsett-color-red);
 }
 
 .zinsett-hero__heading {

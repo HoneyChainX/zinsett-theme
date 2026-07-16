@@ -2,6 +2,10 @@
   ZINSETT free-shipping progress bar (Design Brief §6 `CartDrawer`: "+free-ship
   progress bar at $35"). Green fill = color/green / --zinsett-color-green.
   Tokens only, no hardcoded hex.
+
+  Homestead re-skin (FINAL-SPEC §1.4): hard corners — the pill radius is
+  retired for chips/bars in this direction, replaced with a hairline-ink-
+  bordered, square-cornered track (--zinsett-radius-card, 0).
 */
 
 .zinsett-shipping-bar {
@@ -20,14 +24,15 @@
 .zinsett-shipping-bar__track {
   width: 100%;
   height: 0.8rem;
-  border-radius: var(--zinsett-radius-pill);
-  background-color: var(--zinsett-color-line);
+  border: 0.1rem solid var(--zinsett-color-ink);
+  border-radius: var(--zinsett-radius-card);
+  background-color: var(--zinsett-color-well);
   overflow: hidden;
 }
 
 .zinsett-shipping-bar__fill {
   height: 100%;
-  border-radius: var(--zinsett-radius-pill);
+  border-radius: var(--zinsett-radius-card);
   background-color: var(--zinsett-color-green);
   transition: width var(--zinsett-motion-reveal-duration) var(--zinsett-motion-reveal-easing);
 }

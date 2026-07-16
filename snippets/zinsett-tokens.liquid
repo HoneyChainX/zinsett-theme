@@ -1,67 +1,152 @@
 {% comment %}
-  ZINSETT "Warm Field" design tokens — Design Brief §2.1 (canonical source).
+  ZINSETT "Homestead Supply" design tokens.
 
-  Emits --zinsett-* CSS custom properties for every token in §2.1 so
-  sections/snippets/assets can consume them instead of hardcoding hex,
-  font stacks, spacing, radius, shadow, motion, or grid values.
+  Source of truth: ops/design/redesign/FINAL-SPEC.md §1 (token table) — the
+  approved re-skin of the retired "Warm Field" direction. This is a VALUE
+  swap on the existing --zinsett-* names wherever a role correspondence
+  exists (see FINAL-SPEC §1.1), plus the small set of new custom properties
+  Warm Field had no slot for (§1.2 wells, kraft, cream-ink, shadow/focus
+  colors) and a dual light/dark theme layer Warm Field never had.
 
-  - Typography family/style are settings-driven (font_picker: type_header_font
-    for Fraunces, type_body_font for Inter) so Theme Settings > Typography
-    stays the single control surface; the §2.1 fallback stacks are literal
-    (not settings-driven, per spec) and appended after the picked font.
-  - Weight tokens are the fixed values §2.1 calls for (Fraunces 600/700,
-    Inter 400/500/600), independent of whichever single weight the merchant
-    has selected in the font picker.
-  - Colors, spacing, radius, shadow, motion, and grid are literal per §2.1 —
-    this file is the one place those hex/values are allowed to live.
+  Concept: the modern general store / feed-supply ledger — color-blocked
+  bands of cream, kraft, and barn green; wood-type slab headlines; prices
+  as physical shelf tags; trust marks as rubber stamps; red rationed to
+  sale + stamps (~2% of the page). Hard corners everywhere (radius 0);
+  hard offset shadows (no blur).
+
+  Theme plumbing (FINAL-SPEC §1.2 "Theme plumbing"): tokens declared on
+  :root (light/"day ledger" default), redefined under
+  `@media (prefers-color-scheme: dark)` ("lantern ledger") AND under
+  explicit `:root[data-theme="dark"]` / `:root[data-theme="light"]`
+  attribute overrides so a future site-wide toggle beats the OS preference
+  in both directions. `color-scheme: light dark` is declared on :root and
+  re-pinned per theme (judge flag: color-scheme hygiene, applied
+  preemptively) — paired with `<meta name="color-scheme" content="light
+  dark">` in layout/theme.liquid.
+
+  Pinned (theme-independent) inks (FINAL-SPEC §1.2 "Pinned inks"): the
+  photo "well" mounting-card stays light in BOTH themes (so
+  mix-blend-mode: multiply keeps working on dark backgrounds), so text set
+  on a well (price-tag numerals, hero-card title) and the rationed stamp
+  device use --zinsett-color-well-ink / --zinsett-color-stamp — declared
+  once on :root and never overridden in the dark/media blocks below.
+
+  - Typography family/style stay settings-driven (font_picker:
+    type_header_font for the slab display face, type_body_font for the
+    sans body face) so Theme Settings > Typography remains the single
+    control surface; the FINAL-SPEC §1.5 fallback stacks are literal
+    (not settings-driven) and appended after the picked font, same
+    mechanism as before.
+  - The ledger mono voice (eyebrows, stamps, announcement, meta rows)
+    is NOT in the Shopify font picker in this pass — FINAL-SPEC §1.5 calls
+    for self-hosting IBM Plex Mono SemiBold via assets/, which needs actual
+    WOFF2 binaries this pass doesn't have. Flagged, not invented: the mono
+    role uses FINAL-SPEC's own judge-fixed system stack (`ui-monospace`
+    chain) as a literal token until the webfont ships.
+  - Colors, type scale, spacing, radius, shadow, and motion are literal
+    per FINAL-SPEC — this file is the one place those hex/values live.
 
   Rendered from layout/theme.liquid before Dawn's own settings-driven
   `:root` / `.color-*` style block so Dawn's cascade still wins for its own
   --color-*/--font-*-family variables while --zinsett-* stays available
   everywhere as the brand-token layer.
 {% endcomment %}
-{% style %}
+{%- style -%}
   :root {
-    /* color/* — Brief §2.1 */
-    --zinsett-color-ink: #173F35;
-    --zinsett-color-ink-soft: #2E5A4E;
-    --zinsett-color-paper: #F6F0E6;
-    --zinsett-color-card: #FFFFFF;
-    --zinsett-color-terra: #D97A45;
-    --zinsett-color-terra-deep: #B85C2E;
-    --zinsett-color-gold: #C9A227;
-    --zinsett-color-green: #3E7C4F;
-    --zinsett-color-red: #B4442C;
-    --zinsett-color-line: #E3D9C8;
-    --zinsett-color-muted: #6E7A72;
+    color-scheme: light dark;
 
-    /* type/display — Fraunces 600/700; fallback Iowan Old Style, Georgia */
+    /* color/* — FINAL-SPEC §1.1 "day ledger" (light, default) */
+    --zinsett-color-paper: #F8EED6;
+    --zinsett-color-paper-2: #F2E2BE;
+    --zinsett-color-kraft: #DCB273;
+    --zinsett-color-kraft-deep: #B9863C;
+    --zinsett-color-ink: #201909;
+    --zinsett-color-ink-soft: #4C4028;
+    --zinsett-color-card: #F8EED6;
+    --zinsett-color-terra: #1E4230; /* CTA role passes to barn green (§1.1) */
+    --zinsett-color-terra-deep: #142B1F;
+    --zinsett-color-green: #1E4230;
+    --zinsett-color-red: #A9391F;
+    --zinsett-color-cream-ink: #F6ECD2;
+    --zinsett-color-cream-soft: #CBBF9F;
+    --zinsett-color-well: #F3E6C4;
+    --zinsett-color-well-line: #D9C08B;
+    --zinsett-color-well-cool: #E9EACF;
+    --zinsett-color-well-cool-line: #C6C793;
+    --zinsett-color-shadow: #201909;
+    --zinsett-color-focus: #A9391F;
+
+    /* --zinsett-color-gold is RETIRED (§1.1) — nearest successor for
+       decorative rules/marks/numerals is --zinsett-color-kraft-deep
+       (never text: 2.6:1 on paper). Do not reintroduce --zinsett-color-gold. */
+
+    /* 1px hairlines / secondary text stay dynamic against ink so they flip
+       for free with the theme blocks below — no per-theme redeclaration. */
+    --zinsett-color-line: color-mix(in srgb, var(--zinsett-color-ink) 22%, transparent);
+    --zinsett-color-muted: var(--zinsett-color-ink-soft);
+
+    /* Pinned inks (§1.2) — wells stay light in both themes, so text set on
+       a well and the rationed stamp device do NOT flip with the theme. */
+    --zinsett-color-well-ink: #201909;
+    --zinsett-color-stamp: #A9391F;
+
+    /* type/display — slab display face (Roboto Slab 800 via the Shopify
+       font library; upgrade path Clarendon Graphic/Sentinel Black if
+       licensed). Fallback stack is FINAL-SPEC §1.5's mockup system stack. */
     --zinsett-font-display-family:
-      {{ settings.type_header_font.family }}, 'Iowan Old Style', Georgia, serif;
+      {{ settings.type_header_font.family }}, 'Rockwell Nova', 'Rockwell', 'Roboto Slab', 'Bookman Old Style', Georgia, 'Times New Roman', serif;
     --zinsett-font-display-style: {{ settings.type_header_font.style }};
-    --zinsett-font-display-weight-semibold: 600;
-    --zinsett-font-display-weight-bold: 700;
+    --zinsett-font-display-weight-semibold: 700;
+    --zinsett-font-display-weight-bold: 800;
 
-    /* type/body — Inter 400/500/600; fallback Avenir Next, system-ui */
+    /* type/body — sans body face (Archivo via the Shopify font library;
+       fallback Source Sans 3). Fallback stack per FINAL-SPEC §1.5. */
     --zinsett-font-body-family:
-      {{ settings.type_body_font.family }}, 'Avenir Next', system-ui, sans-serif;
+      {{ settings.type_body_font.family }}, 'Avenir Next', 'Avenir', 'Seravek', 'Trebuchet MS', Verdana, system-ui, sans-serif;
     --zinsett-font-body-style: {{ settings.type_body_font.style }};
     --zinsett-font-body-weight-regular: 400;
     --zinsett-font-body-weight-medium: 500;
     --zinsett-font-body-weight-semibold: 600;
 
-    /* type/scale — 12 / 13.5 / 15 (base) / 18 / 22 / 27 / 34 / 44, 1.25 modular-ish */
-    --zinsett-type-scale-12: 1.2rem;
-    --zinsett-type-scale-13-5: 1.35rem;
-    --zinsett-type-scale-15: 1.5rem;
-    --zinsett-type-scale-18: 1.8rem;
-    --zinsett-type-scale-22: 2.2rem;
-    --zinsett-type-scale-27: 2.7rem;
-    --zinsett-type-scale-34: 3.4rem;
-    --zinsett-type-scale-44: 4.4rem;
+    /* type/mono — the ledger voice (eyebrows, stamps, announcement, meta
+       rows). IBM Plex Mono SemiBold is the intended webfont (FINAL-SPEC
+       §1.5) but isn't reliably in the Shopify font picker and this pass
+       has no WOFF2 binaries to self-host under assets/ — flagged in the
+       handoff, not invented. Literal system stack until that ships. */
+    --zinsett-font-mono-family:
+      ui-monospace, 'SF Mono', Menlo, 'Cascadia Mono', 'Segoe UI Mono', Consolas, 'Liberation Mono', monospace;
+    --zinsett-font-mono-weight-bold: 700;
+
+    /*
+      type/scale — FINAL-SPEC §1.3 replaces the old px-labelled scale's
+      VALUES while keeping the 8 slot names (Dawn's root font-size is
+      `62.5%`, i.e. 1rem = 10px here, vs. the mockup's unscaled 16px root —
+      every mockup rem value below is carried in at ×1.6 so on-screen sizes
+      match the approved mockup exactly). Roles, smallest to largest:
+        scale-12   -> meta        (.6rem  mockup -> .96rem)  card meta row, flags, stamps
+        scale-13-5 -> eyebrow/mono(.72rem mockup -> 1.152rem) kickers, announcement, ledger labels
+        scale-15   -> note        (.85rem mockup -> 1.36rem) card concrete-fact line ("base" alias)
+        scale-18   -> card-title  (1.02rem mockup -> 1.632rem) product names, tile labels
+        scale-22   -> stat/price  (interpolated — no direct §1.3 row; large
+                                    numerals e.g. BundleBlock price display)
+        scale-27   -> h2          (clamp(1.9rem,3.6vw,3rem) mockup -> clamp(3.04rem,3.6vw,4.8rem))
+        scale-34   -> h2-editorial(clamp(2.1rem,4.4vw,3.6rem) mockup -> clamp(3.36rem,4.4vw,5.76rem))
+        scale-44   -> display     (clamp(2.5rem,6.2vw,4.9rem) mockup -> clamp(4rem,6.2vw,7.84rem))
+      Every numeral in prices/counts/stats gets `font-variant-numeric:
+      tabular-nums` at the call site (keyword, not a token — not a color).
+    */
+    --zinsett-type-scale-12: 0.96rem;
+    --zinsett-type-scale-13-5: 1.152rem;
+    --zinsett-type-scale-15: 1.36rem;
+    --zinsett-type-scale-18: 1.632rem;
+    --zinsett-type-scale-22: 2rem;
+    --zinsett-type-scale-27: clamp(3.04rem, 3.6vw, 4.8rem);
+    --zinsett-type-scale-34: clamp(3.36rem, 4.4vw, 5.76rem);
+    --zinsett-type-scale-44: clamp(4rem, 6.2vw, 7.84rem);
     --zinsett-type-scale-base: var(--zinsett-type-scale-15);
 
-    /* Named aliases from Brief §7 F-2 text styles (Fraunces display/H, Inter body) */
+    /* Legacy named aliases (kept for back-compat; values now follow the
+       Homestead role each slot holds per the ladder above). */
     --zinsett-type-display-44: var(--zinsett-type-scale-44);
     --zinsett-type-display-34: var(--zinsett-type-scale-34);
     --zinsett-type-h2-27: var(--zinsett-type-scale-27);
@@ -70,7 +155,20 @@
     --zinsett-type-small-13-5: var(--zinsett-type-scale-13-5);
     --zinsett-type-caption-12: var(--zinsett-type-scale-12);
 
-    /* space — 4 / 8 / 16 / 24 / 40 / 64 */
+    /* New FINAL-SPEC-named aliases (§1.3 role names) for new Homestead
+       component CSS to reach for directly instead of the numbered slots. */
+    --zinsett-type-display: var(--zinsett-type-scale-44);
+    --zinsett-type-h2-editorial: var(--zinsett-type-scale-34);
+    --zinsett-type-h2: var(--zinsett-type-scale-27);
+    --zinsett-type-card-title: var(--zinsett-type-scale-18);
+    --zinsett-type-note: var(--zinsett-type-scale-15);
+    --zinsett-type-eyebrow: var(--zinsett-type-scale-13-5);
+    --zinsett-type-meta: var(--zinsett-type-scale-12);
+    --zinsett-type-body: 1.6rem;
+
+    /* space — unchanged 4/8/16/24/40/64 scale (Warm Field). FINAL-SPEC's
+       fluid section-block/grid-gap clamps are additive, new tokens below;
+       the existing discrete scale keeps serving every current call site. */
     --zinsett-space-4: 0.4rem;
     --zinsett-space-8: 0.8rem;
     --zinsett-space-16: 1.6rem;
@@ -78,26 +176,125 @@
     --zinsett-space-40: 4rem;
     --zinsett-space-64: 6.4rem;
 
-    /* radius — 4px cards+inputs · 999px pills/badges */
-    --zinsett-radius-card: 0.4rem;
-    --zinsett-radius-input: 0.4rem;
+    /* New fluid spacing (FINAL-SPEC §1.4) for Homestead section/grid work. */
+    --zinsett-space-section: clamp(4.16rem, 6vw, 7.68rem);
+    --zinsett-space-grid-gap: clamp(1.28rem, 1.6vw, 2.08rem);
+
+    /* radius — FINAL-SPEC §1.4: hard corners are the direction. 0 on
+       cards/inputs; pill kept (999px) but UNUSED for badges/chips/bars —
+       circles only on the price-tag punch-hole and focus-ring rounding. */
+    --zinsett-radius-card: 0;
+    --zinsett-radius-input: 0;
     --zinsett-radius-pill: 999px;
 
-    /* shadow — one level only: 0 2px 8px rgba(23,63,53,.08) */
-    --zinsett-shadow: 0 2px 8px rgba(23, 63, 53, 0.08);
+    /* shadow — hard offset only, no blur (FINAL-SPEC §1.4). Scale: 3px
+       add/cart buttons, 4px cards/aisles/buttons (default), 8px hero/bird
+       showpieces. --zinsett-shadow kept as the legacy alias name. */
+    --zinsett-shadow-sm: 3px 3px 0 var(--zinsett-color-shadow);
+    --zinsett-shadow-default: 4px 4px 0 var(--zinsett-color-shadow);
+    --zinsett-shadow-lg: 8px 8px 0 var(--zinsett-color-shadow);
+    --zinsett-shadow: var(--zinsett-shadow-default);
 
-    /* motion — 160ms ease-out hovers · 320ms ease reveal (reduce-motion below) */
-    --zinsett-motion-hover-duration: 160ms;
-    --zinsett-motion-hover-easing: ease-out;
+    /* border scale (FINAL-SPEC §1.4), for new Homestead component CSS. */
+    --zinsett-border-structural: 3px solid var(--zinsett-color-ink);
+    --zinsett-border-component: 2px solid var(--zinsett-color-ink);
+    --zinsett-border-hairline: 1px solid var(--zinsett-color-line);
+    --zinsett-border-trust: 2px dashed var(--zinsett-color-kraft-deep);
+
+    /* motion — 120ms ease hovers (translate/box-shadow only, FINAL-SPEC
+       §1.4); reveal timing unchanged (reduce-motion block below kills both). */
+    --zinsett-motion-hover-duration: 120ms;
+    --zinsett-motion-hover-easing: ease;
     --zinsett-motion-reveal-duration: 320ms;
     --zinsett-motion-reveal-easing: ease;
 
-    /* grid — 12-col desktop, 1200px max, 24px gutter · mobile 4-col, 16px gutter */
+    /* grid — container converts FINAL-SPEC's 76rem (16px root) max-width
+       to the 1216px it renders as; unaffected by Dawn's rem rescale since
+       it's expressed in px. Column/gutter scale otherwise unchanged. */
     --zinsett-grid-columns: 12;
     --zinsett-grid-columns-mobile: 4;
-    --zinsett-grid-max-width: 1200px;
+    --zinsett-grid-max-width: 1216px;
     --zinsett-grid-gutter: 2.4rem;
     --zinsett-grid-gutter-mobile: 1.6rem;
+  }
+
+  /* "lantern ledger" — dark, OS-preference-driven (FINAL-SPEC §1.1/§1.2). */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --zinsett-color-paper: #191510;
+      --zinsett-color-paper-2: #221C13;
+      --zinsett-color-kraft: #4A3A1D;
+      --zinsett-color-kraft-deep: #6E5527;
+      --zinsett-color-ink: #F1E5C6;
+      --zinsett-color-ink-soft: #C8B888;
+      --zinsett-color-card: #191510;
+      --zinsett-color-terra: #1B3A28;
+      --zinsett-color-terra-deep: #122619;
+      --zinsett-color-green: #1B3A28;
+      --zinsett-color-red: #E58562;
+      --zinsett-color-cream-ink: #F1E5C6;
+      --zinsett-color-cream-soft: #BFB292;
+      --zinsett-color-well: #EADCB6;
+      --zinsett-color-well-line: #C9AE77;
+      --zinsett-color-well-cool: #DEE0BE;
+      --zinsett-color-well-cool-line: #A9AB77;
+      --zinsett-color-shadow: #000000;
+      --zinsett-color-focus: #E5A05E;
+      /* --zinsett-color-well-ink / --zinsett-color-stamp intentionally NOT
+         redeclared here — pinned per §1.2, the well stays light so text on
+         it (and the stamp) keep their day-ledger ink in both themes. */
+    }
+  }
+
+  /* Toggle-proof overrides (FINAL-SPEC §1.2 "theme plumbing") — win over
+     the OS preference in both directions once a site toggle sets
+     `data-theme` on the root element. No toggle ships in this pass; these
+     are pre-wired so one can be added without touching this token layer. */
+  :root[data-theme='light'] {
+    color-scheme: light;
+    --zinsett-color-paper: #F8EED6;
+    --zinsett-color-paper-2: #F2E2BE;
+    --zinsett-color-kraft: #DCB273;
+    --zinsett-color-kraft-deep: #B9863C;
+    --zinsett-color-ink: #201909;
+    --zinsett-color-ink-soft: #4C4028;
+    --zinsett-color-card: #F8EED6;
+    --zinsett-color-terra: #1E4230;
+    --zinsett-color-terra-deep: #142B1F;
+    --zinsett-color-green: #1E4230;
+    --zinsett-color-red: #A9391F;
+    --zinsett-color-cream-ink: #F6ECD2;
+    --zinsett-color-cream-soft: #CBBF9F;
+    --zinsett-color-well: #F3E6C4;
+    --zinsett-color-well-line: #D9C08B;
+    --zinsett-color-well-cool: #E9EACF;
+    --zinsett-color-well-cool-line: #C6C793;
+    --zinsett-color-shadow: #201909;
+    --zinsett-color-focus: #A9391F;
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+    --zinsett-color-paper: #191510;
+    --zinsett-color-paper-2: #221C13;
+    --zinsett-color-kraft: #4A3A1D;
+    --zinsett-color-kraft-deep: #6E5527;
+    --zinsett-color-ink: #F1E5C6;
+    --zinsett-color-ink-soft: #C8B888;
+    --zinsett-color-card: #191510;
+    --zinsett-color-terra: #1B3A28;
+    --zinsett-color-terra-deep: #122619;
+    --zinsett-color-green: #1B3A28;
+    --zinsett-color-red: #E58562;
+    --zinsett-color-cream-ink: #F1E5C6;
+    --zinsett-color-cream-soft: #BFB292;
+    --zinsett-color-well: #EADCB6;
+    --zinsett-color-well-line: #C9AE77;
+    --zinsett-color-well-cool: #DEE0BE;
+    --zinsett-color-well-cool-line: #A9AB77;
+    --zinsett-color-shadow: #000000;
+    --zinsett-color-focus: #E5A05E;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -106,4 +303,4 @@
       --zinsett-motion-reveal-duration: 0ms;
     }
   }
-{% endstyle %}
+{%- endstyle -%}

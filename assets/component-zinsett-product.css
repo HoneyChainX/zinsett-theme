@@ -57,7 +57,11 @@
     z-index: 3;
     background: rgb(var(--color-background));
     padding-block: var(--zinsett-space-8);
-    box-shadow: var(--zinsett-shadow);
+    /* Homestead: a directional/upward hard shadow + ink seam reads as a
+       docked bar, not a floating card (the generic corner-offset alias
+       is for cards/aisles, not a bottom-fixed bar). */
+    border-top: var(--zinsett-border-structural);
+    box-shadow: 0 -3px 0 var(--zinsett-color-shadow);
   }
 }
 
