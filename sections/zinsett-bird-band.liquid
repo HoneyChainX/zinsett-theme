@@ -69,8 +69,9 @@
         {%- endfor -%}
       {%- else -%}
         {%- for i in (1..4) -%}
+          {%- assign placeholder_image_name = 'product-apparel-' | append: i -%}
           <li class="grid__item">
-            {% render 'card-product', media_aspect_ratio: 'square', lazy_load: false, placeholder_image: 'product-apparel-' | append: i %}
+            {% render 'card-product', media_aspect_ratio: 'square', lazy_load: false, placeholder_image: placeholder_image_name %}
           </li>
         {%- endfor -%}
       {%- endif -%}
