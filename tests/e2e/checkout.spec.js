@@ -54,7 +54,7 @@ test.describe('ZINSETT purchase funnel (Design Brief §6 / §12)', () => {
     // Four CategoryTiles: Dogs / Cats / Birds (NEW badge) / Home.
     const tiles = page.locator('.zinsett-category-tiles__item');
     await expect(tiles).toHaveCount(4);
-    await expect(page.locator('.zinsett-category-tile__badge', { hasText: /new/i })).toBeVisible();
+    await expect(page.locator('.zinsett-aisle__badge', { hasText: /new/i })).toBeVisible();
 
     // TrustStrip lives in the footer on every page (Brief C-6). Item count
     // is 2 or 3 depending on the `hide_returns` theme setting (Brief C-6

@@ -313,6 +313,16 @@
       <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
       {% comment %}theme-check-enable AssetPreload{% endcomment %}
     {%- endunless -%}
+    {%- comment -%}
+      Self-hosted IBM Plex Mono (FINAL-SPEC §1.5, snippets/zinsett-tokens.
+      liquid @font-face). Only the 400 weight is preloaded — it renders
+      the shelf-tag price chips on card/collection grids, above the fold
+      on home and collection pages. The 600 weight (stamps/ledger labels)
+      is lower-priority and left to normal @font-face discovery.
+    {%- endcomment -%}
+    {% comment %}theme-check-disable AssetPreload{% endcomment %}
+    <link rel="preload" as="font" href="{{ 'zinsett-plex-mono-400.woff2' | asset_url }}" type="font/woff2" crossorigin>
+    {% comment %}theme-check-enable AssetPreload{% endcomment %}
 
     {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
       {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}

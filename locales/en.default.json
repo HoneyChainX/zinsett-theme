@@ -10,6 +10,10 @@
       "admin_link_html": "Are you the store owner? <a href=\"/admin\" class=\"link underlined-link\">Log in here</a>",
       "powered_by_shopify_html": "This shop will be powered by {{ shopify }}"
     },
+    "zinsett_aisle_item_count": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    },
     "social": {
       "alt_text": {
         "share_on_facebook": "Share on Facebook",
@@ -271,6 +275,9 @@
     }
   },
   "sections": {
+    "zinsett_category_tiles": {
+      "aisle_kicker": "Aisle {{ number }}"
+    },
     "announcements": {
       "previous_announcement": "Previous announcement",
       "next_announcement": "Next announcement",

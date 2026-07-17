@@ -19,7 +19,11 @@
 {% endcomment %}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
-{{ 'section-zinsett-bird-band.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Perf pass: Bird Shop is Home #6, well below the fold — async per Dawn's
+  print/onload swap idiom instead of a blocking stylesheet_tag.
+{%- endcomment -%}
+<link rel="stylesheet" href="{{ 'section-zinsett-bird-band.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {%- style -%}
   .section-{{ section.id }}-padding {

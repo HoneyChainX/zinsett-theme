@@ -7,8 +7,15 @@
 
 {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
-{{ 'component-zinsett-trust-strip.css' | asset_url | stylesheet_tag }}
-{{ 'component-zinsett-shipping-bar.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Perf pass (webfont/CSS regression fix): the drawer is off-canvas and
+  hidden until opened, so its brand-specific CSS is not needed for first
+  paint on any page. Loaded async (Dawn's own print/onload swap idiom —
+  see component-cart-notification.css/component-menu-drawer.css in
+  sections/header.liquid) instead of a blocking stylesheet_tag.
+{%- endcomment -%}
+<link rel="stylesheet" href="{{ 'component-zinsett-trust-strip.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-zinsett-shipping-bar.css' | asset_url }}" media="print" onload="this.media='all'">
 
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>

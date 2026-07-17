@@ -1,5 +1,7 @@
 {% comment %}
-  ZINSETT CategoryTiles — Design Brief §5 CategoryTile / §6 Home #2.
+  ZINSETT CategoryTiles / "Aisle" tiles — Design Brief §5 CategoryTile /
+  §6 Home #2, structural follow-up per FINAL-SPEC §2 ".aisle" + §3
+  "Aisles" row.
 
   Four tiles: Dogs / Cats / Birds (NEW badge) / Home. Each block links a
   real Shopify collection (so the URL and fallback title always match the
@@ -8,14 +10,35 @@
   H-4 Birds). A "Home" tile block should point at whichever Home & Garden
   hub collection the merchant creates.
 
-  Image + serif label + thin gold rule per the CategoryTile component spec
-  (§5); "NEW" badge is a tile-scoped pill (not the shared BadgePill snippet,
+  Aisle anatomy (FINAL-SPEC §2 ".aisle"): giant outlined numeral (wood-type
+  numeral, transparent fill + kraft-deep stroke, low-contrast) from
+  `forloop.index` → "AISLE 0N" mono kicker → collection title → LIVE item
+  count from `collection.products_count` (never hardcoded — FINAL-SPEC
+  §4 judge-fix 7) → small well-mounted product thumb (multiplied cutout,
+  top-right, decorative) → corner arrow. Variant color (green/cream/kraft)
+  is block-schema-driven per §2's "Variants: green (Cats), cream
+  (Dogs/Home), kraft (Birds)".
+
+  "NEW" badge is a tile-scoped pill (not the shared BadgePill snippet,
   which C-4 introduces for product cards — reconcile styles there).
 
   Asset slots awaiting media-forge: H-2 (Cats), H-3 (Dogs), H-4 (Birds).
   The Home tile has no Brief §10 photo brief yet — flagged, not invented.
+
+  Schema compatibility note: every setting ID that existed before this
+  pass (title, color_scheme, padding_top, padding_bottom, collection,
+  image, title [block], link, show_badge, badge_text) is kept as-is; only
+  new settings (block `variant`) were added, with a default so existing
+  saved section/block data keeps validating.
 {% endcomment %}
-{{ 'section-zinsett-category-tiles.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Perf pass: CategoryTiles is Home #2, typically below the hero on the
+  mobile viewport Lighthouse audits against — async per Dawn's
+  print/onload swap idiom instead of a blocking stylesheet_tag. The hero
+  above it (section-zinsett-hero-editorial.css) stays blocking since it
+  carries the LCP element.
+{%- endcomment -%}
+<link rel="stylesheet" href="{{ 'section-zinsett-category-tiles.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -55,44 +78,71 @@
             assign tile_url = block.settings.link
           endif
           assign placeholder_index = forloop.index0 | modulo: 4 | plus: 1
+
+          # Giant aisle numeral, always 2 digits ("01", "02" …) — Aisle
+          # anatomy, FINAL-SPEC §2. Zero-pad by prepending then slicing
+          # the last 2 characters so it stays correct beyond 9 tiles too.
+          assign aisle_padded = forloop.index | prepend: '00'
+          assign aisle_number = aisle_padded | slice: -2, 2
+
+          # Alternate well tint (Sunroom graft, FINAL-SPEC §1.2/§4) so the
+          # thumbs don't checkerboard: cool on the 1st/3rd tile, warm on
+          # the 2nd/4th — art-directed, not literal odd/even of the loop.
+          assign well_variant = 'zinsett-aisle__thumb-well'
+          if forloop.index == 1 or forloop.index == 3
+            assign well_variant = 'zinsett-aisle__thumb-well zinsett-aisle__thumb-well--cool'
+          endif
         -%}
         <li class="zinsett-category-tiles__item" {{ block.shopify_attributes }}>
           <a
-            class="zinsett-category-tile"
+            class="zinsett-aisle zinsett-aisle--{{ block.settings.variant }}"
             {% if tile_url == blank %}
               role="link" aria-disabled="true"
             {% else %}
               href="{{ tile_url }}"
             {% endif %}
           >
-            <span class="zinsett-category-tile__media media">
+            <span class="zinsett-aisle__numeral" aria-hidden="true">{{ aisle_number }}</span>
+
+            <span class="{{ well_variant }}">
               {%- if tile_image != blank -%}
                 {{
                   tile_image
-                  | image_url: width: 700
+                  | image_url: width: 300
                   | image_tag:
-                    widths: '165, 330, 535, 750, 1000',
-                    sizes: '(min-width: 990px) 25vw, (min-width: 750px) 50vw, 50vw',
-                    class: 'zinsett-category-tile__image',
-                    loading: 'lazy'
+                    widths: '150, 220, 300',
+                    sizes: '96px',
+                    class: 'zinsett-aisle__thumb-image',
+                    loading: 'lazy',
+                    alt: ''
                 }}
               {%- else -%}
-                {{ 'collection-apparel-' | append: placeholder_index | placeholder_svg_tag: 'placeholder-svg zinsett-category-tile__image' }}
+                {{ 'collection-apparel-' | append: placeholder_index | placeholder_svg_tag: 'placeholder-svg zinsett-aisle__thumb-image' }}
               {%- endif -%}
               {%- if block.settings.show_badge -%}
-                <span class="zinsett-category-tile__badge">{{ block.settings.badge_text | escape }}</span>
+                <span class="zinsett-aisle__badge">{{ block.settings.badge_text | escape }}</span>
               {%- endif -%}
             </span>
-            <span class="zinsett-category-tile__label-wrap">
-              <span class="zinsett-category-tile__label">
+
+            <span class="zinsett-aisle__body">
+              <span class="zinsett-aisle__kicker">
+                {{- 'sections.zinsett_category_tiles.aisle_kicker' | t: number: aisle_number -}}
+              </span>
+              <span class="zinsett-aisle__label">
                 {%- if tile_title != blank -%}
                   {{- tile_title | escape -}}
                 {%- else -%}
                   {{ 'onboarding.collection_title' | t }}
                 {%- endif -%}
               </span>
-              <span class="zinsett-category-tile__rule" aria-hidden="true"></span>
+              {%- if block.settings.collection != blank -%}
+                <span class="zinsett-aisle__count">
+                  {{- 'general.zinsett_aisle_item_count' | t: count: block.settings.collection.products_count -}}
+                </span>
+              {%- endif -%}
             </span>
+
+            <span class="zinsett-aisle__arrow" aria-hidden="true"></span>
           </a>
         </li>
       {%- endfor -%}
@@ -156,7 +206,7 @@
           "type": "collection",
           "id": "collection",
           "label": "Collection",
-          "info": "Powers the link and fallback title/image."
+          "info": "Powers the link, fallback title/image, and the live item count."
         },
         {
           "type": "image_picker",
@@ -177,6 +227,18 @@
           "info": "Falls back to the collection URL when blank."
         },
         {
+          "type": "select",
+          "id": "variant",
+          "label": "Aisle variant",
+          "info": "FINAL-SPEC §2 \".aisle\" color variants.",
+          "options": [
+            { "value": "cream", "label": "Cream (Dogs/Home)" },
+            { "value": "green", "label": "Green (Cats)" },
+            { "value": "kraft", "label": "Kraft (Birds)" }
+          ],
+          "default": "cream"
+        },
+        {
           "type": "checkbox",
           "id": "show_badge",
           "label": "Show badge",
@@ -195,10 +257,10 @@
     {
       "name": "ZINSETT Category tiles",
       "blocks": [
-        { "type": "tile", "settings": { "title": "Dogs" } },
-        { "type": "tile", "settings": { "title": "Cats" } },
-        { "type": "tile", "settings": { "title": "Birds", "show_badge": true, "badge_text": "NEW" } },
-        { "type": "tile", "settings": { "title": "Home" } }
+        { "type": "tile", "settings": { "title": "Dogs", "variant": "cream" } },
+        { "type": "tile", "settings": { "title": "Cats", "variant": "green" } },
+        { "type": "tile", "settings": { "title": "Birds", "variant": "kraft", "show_badge": true, "badge_text": "NEW" } },
+        { "type": "tile", "settings": { "title": "Home", "variant": "cream" } }
       ]
     }
   ]
