@@ -36,6 +36,7 @@
   position: relative;
   display: block;
   aspect-ratio: 1 / 1;
+  border: var(--zinsett-border-component);
   border-radius: var(--zinsett-radius-card);
   overflow: hidden;
 }
@@ -52,18 +53,25 @@
   transform: scale(1.03);
 }
 
+/*
+  Homestead flag chip (FINAL-SPEC §2 ".flag"): mono caps, 2px ink border,
+  green fill — concrete claims only, never urgency, hard corners (radius
+  comes from --zinsett-radius-card, which is 0 in this direction; the pill
+  token is retired for chips/badges per §1.4).
+*/
 .zinsett-category-tile__badge {
   position: absolute;
   top: var(--zinsett-space-8);
   left: var(--zinsett-space-8);
   padding: 0.3rem 0.9rem;
-  border-radius: var(--zinsett-radius-pill);
-  background-color: var(--zinsett-color-gold);
-  color: var(--zinsett-color-ink);
-  font-family: var(--zinsett-font-body-family);
-  font-weight: var(--zinsett-font-body-weight-semibold);
-  font-size: var(--zinsett-type-scale-12);
-  letter-spacing: 0.04em;
+  border: 0.2rem solid var(--zinsett-color-ink);
+  border-radius: var(--zinsett-radius-card);
+  background-color: var(--zinsett-color-terra);
+  color: var(--zinsett-color-cream-ink);
+  font-family: var(--zinsett-font-mono-family);
+  font-weight: var(--zinsett-font-mono-weight-bold);
+  font-size: var(--zinsett-type-meta);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -80,12 +88,14 @@
   font-size: var(--zinsett-type-scale-18);
 }
 
+/* Decorative underline only (never text) — kraft-deep is the retired
+   gold's successor for rules/marks/numerals (FINAL-SPEC §1.1). */
 .zinsett-category-tile__rule {
   display: inline-block;
   margin-top: var(--zinsett-space-8);
   width: 4rem;
   height: 2px;
-  background-color: var(--zinsett-color-gold);
+  background-color: var(--zinsett-color-kraft-deep);
 }
 
 @media (prefers-reduced-motion: reduce) {

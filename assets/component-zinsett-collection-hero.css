@@ -1,18 +1,20 @@
 /*
-  ZINSETT collection header (Design Brief §6 Collection): serif 34px title +
-  one thin gold rule. Tokens only, no hardcoded hex.
+  ZINSETT collection header (Design Brief §6 Collection): slab display
+  title + one thin decorative rule. Homestead re-skin (FINAL-SPEC §1.1):
+  --zinsett-color-gold is retired; kraft-deep is its rules/marks-only
+  successor. Tokens only, no hardcoded hex.
 */
 
 .zinsett-collection-hero__title {
   font-family: var(--zinsett-font-display-family);
   font-weight: var(--zinsett-font-display-weight-bold);
-  font-size: var(--zinsett-type-scale-34);
-  line-height: 1.15;
+  font-size: var(--zinsett-type-h2-editorial);
+  line-height: 1.05;
 }
 
 /*
-  Thin gold rule rendered as a pseudo-element (rather than an extra DOM
-  sibling) so the existing `.collection-hero__title + .collection-hero__description`
+  Thin decorative rule rendered as a pseudo-element (rather than an extra
+  DOM sibling) so the existing `.collection-hero__title + .collection-hero__description`
   adjacent-sibling selector in component-collection-hero.css keeps matching.
 */
 .zinsett-collection-hero__title::after {
@@ -21,5 +23,5 @@
   width: var(--zinsett-space-64);
   height: 2px;
   margin-top: var(--zinsett-space-8);
-  background-color: var(--zinsett-color-gold);
+  background-color: var(--zinsett-color-kraft-deep);
 }

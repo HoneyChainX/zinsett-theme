@@ -1,6 +1,11 @@
 /*
   ZINSETT TrustStrip (Design Brief §5 `TrustStrip`). Horizontal row >=640px,
   stacked below it. Tokens only, no hardcoded hex.
+
+  Homestead re-skin (FINAL-SPEC §1.4/§2 "Trust badge"): the strip's own
+  top/bottom rules pick up the direction's "2px dashed kraft-deep" trust
+  border treatment in place of the plain hairline — same DOM, same
+  cart-drawer/cart/footer reuse (Brief C-6), skin only.
 */
 
 .trust-strip {
@@ -9,8 +14,8 @@
   gap: var(--zinsett-space-16);
   margin: var(--zinsett-space-16) 0;
   padding: var(--zinsett-space-16) 0;
-  border-top: 0.1rem solid var(--zinsett-color-line);
-  border-bottom: 0.1rem solid var(--zinsett-color-line);
+  border-top: var(--zinsett-border-trust);
+  border-bottom: var(--zinsett-border-trust);
 }
 
 @media screen and (min-width: 640px) {

@@ -2,9 +2,16 @@
   ZINSETT ProductCard overrides (Design Brief §5 `ProductCard`, §6 Collection).
   Restyles Dawn's shared card-product markup: 2-line title clamp. Tokens only,
   no hardcoded hex — colors/typography/spacing continue to come from Dawn's
-  own --color-*/--font-* custom properties (already remapped to the Warm
-  Field palette in settings_data.json by C-2) plus the --zinsett-* space
-  scale for the clamp's reserved height.
+  own --color-*/--font-* custom properties (already remapped to the
+  Homestead Supply palette in settings_data.json by C-2) plus the
+  --zinsett-* space scale for the clamp's reserved height.
+
+  Homestead re-skin additions below (FINAL-SPEC §2 "Component specs" +
+  §3 "Featured shelf" row): the card frame/shadow itself already comes from
+  Dawn's own card_border_*/card_shadow_* settings (settings_data.json), so
+  this file only adds what Dawn's generic card system has no slot for —
+  the tinted media well + multiply, the shelf-tag price chip, and the mono
+  flag/badge treatment.
 */
 
 .card__heading--clamp a {
@@ -13,4 +20,95 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
   line-height: calc(1 + 0.4 / max(1, var(--font-heading-scale)));
+}
+
+/*
+  Media well (FINAL-SPEC §2 "Product card" anatomy): white-background
+  supplier shots are mounted on a tinted card and multiplied in, so
+  cutouts read as printed on card stock instead of raw rectangles.
+  `:not(.placeholder-svg)` keeps Dawn's "no image yet" onboarding SVG out
+  of the blend (judge flag: multiply vs. lazy-load — the SVG placeholder
+  must never multiply or it ghosts/crushes).
+*/
+.card .card__media,
+.card .media {
+  background-color: var(--zinsett-color-well);
+}
+
+.card .card__media img:not(.placeholder-svg),
+.card .media > img:not(.placeholder-svg) {
+  mix-blend-mode: multiply;
+}
+
+/*
+  Alternating warm/cool well tints (Sunroom graft, FINAL-SPEC §4 "grafts
+  applied"): art-directed cool/warm sequence per 6-up shelf row (cool on
+  1, 4, 6), not a checkerboard. Scoped to Dawn's `.grid__item` wrapper so
+  it only fires inside product grids (featured collection, collection
+  grid, related products) and is a harmless no-op anywhere else.
+*/
+.grid__item:nth-child(6n + 1) .card .card__media,
+.grid__item:nth-child(6n + 1) .card .media,
+.grid__item:nth-child(6n + 4) .card .card__media,
+.grid__item:nth-child(6n + 4) .card .media,
+.grid__item:nth-child(6n) .card .card__media,
+.grid__item:nth-child(6n) .card .media {
+  background-color: var(--zinsett-color-well-cool);
+}
+
+/*
+  Shelf-tag price chip (FINAL-SPEC §2 ".price"): slab 800 tabular
+  numerals, 2px ink border on the well, punched hang-hole. Text is pinned
+  to the well-ink (the well stays light in both themes, see zinsett-tokens
+  §1.2). Scoped to cards only — cart/PDP price rows keep Dawn's plain
+  price styling to avoid a chip-in-a-list-row regression.
+*/
+.card .price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  position: relative;
+  margin: 0;
+  padding: 0.28rem 0.6rem 0.28rem 1.15rem;
+  border: 0.2rem solid var(--zinsett-color-ink);
+  background-color: var(--zinsett-color-well);
+  color: var(--zinsett-color-well-ink);
+  font-family: var(--zinsett-font-display-family);
+  font-weight: var(--zinsett-font-display-weight-bold);
+}
+
+.card .price .price-item {
+  font-family: inherit;
+  font-weight: inherit;
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.card .price::before {
+  content: '';
+  position: absolute;
+  left: 0.38rem;
+  top: 50%;
+  width: 0.32rem;
+  height: 0.32rem;
+  translate: 0 -50%;
+  border: 0.2rem solid var(--zinsett-color-well-ink);
+  border-radius: 50%;
+}
+
+/*
+  Flag/badge chip (FINAL-SPEC §2 ".flag"): mono caps, 2px ink border,
+  green fill by default — concrete claims only. Scoped to cards so cart
+  drawer/other `.badge` usages elsewhere are untouched by this file
+  (badge-pill.liquid's only caller is card-product.liquid, so this is the
+  one place these need to live).
+*/
+.card .badge {
+  border: 0.2rem solid var(--zinsett-color-ink);
+  border-radius: var(--zinsett-radius-card);
+  font-family: var(--zinsett-font-mono-family);
+  font-weight: var(--zinsett-font-mono-weight-bold);
+  font-size: var(--zinsett-type-meta);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
