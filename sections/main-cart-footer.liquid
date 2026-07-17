@@ -2,7 +2,12 @@
 {{ 'component-totals.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
-{{ 'component-zinsett-trust-strip.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Perf pass: TrustStrip sits below the cart summary/totals, not part of
+  the cart page's above-the-fold content. Async per Dawn's print/onload
+  swap idiom.
+{%- endcomment -%}
+<link rel="stylesheet" href="{{ 'component-zinsett-trust-strip.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {%- style -%}
   .section-{{ section.id }}-padding {

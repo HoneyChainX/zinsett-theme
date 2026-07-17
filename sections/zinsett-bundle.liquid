@@ -17,7 +17,11 @@
   description are NOT in Brief §9 — flagged as placeholder pending
   copy-brand-guardian sign-off, left schema-editable.
 {% endcomment %}
-{{ 'section-zinsett-bundle.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Perf pass: BundleBlock is Home #4, well below the fold — async per
+  Dawn's print/onload swap idiom instead of a blocking stylesheet_tag.
+{%- endcomment -%}
+<link rel="stylesheet" href="{{ 'section-zinsett-bundle.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {%- style -%}
   .section-{{ section.id }}-padding {

@@ -4,7 +4,12 @@
 {{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
 {{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
 {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
-{{ 'component-zinsett-trust-strip.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Perf pass: the footer trust strip is below the fold on every template
+  (it renders last, after content_for_layout) so it never gates first
+  paint. Async per Dawn's print/onload swap idiom.
+{%- endcomment -%}
+<link rel="stylesheet" href="{{ 'component-zinsett-trust-strip.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {%- style -%}
   .footer {

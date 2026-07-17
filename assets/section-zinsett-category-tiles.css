@@ -1,4 +1,8 @@
-/* ZINSETT CategoryTiles — Design Brief §5/§6. Tokens only, no hardcoded hex. */
+/*
+  ZINSETT CategoryTiles / "Aisle" tiles — Design Brief §5/§6, structural
+  follow-up per FINAL-SPEC §2 ".aisle" + §3 "Aisles". Tokens only, no
+  hardcoded hex.
+*/
 
 .zinsett-category-tiles__title {
   font-family: var(--zinsett-font-display-family);
@@ -26,47 +30,117 @@
   display: block;
 }
 
-.zinsett-category-tile {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
-.zinsett-category-tile__media {
+/*
+  Aisle tile shell (FINAL-SPEC §2 ".aisle"): 2px ink border, 4px hard
+  offset shadow, hard corners. Variant sets the fill; text/border/shadow
+  stay ink so contrast holds on every variant.
+*/
+.zinsett-aisle {
   position: relative;
-  display: block;
-  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 15rem;
+  padding: var(--zinsett-space-16);
+  overflow: hidden;
+  color: var(--zinsett-color-ink);
+  text-decoration: none;
+  background-color: var(--zinsett-color-paper-2);
   border: var(--zinsett-border-component);
   border-radius: var(--zinsett-radius-card);
-  overflow: hidden;
+  box-shadow: var(--zinsett-shadow-default);
+  transition:
+    transform var(--zinsett-motion-hover-duration) var(--zinsett-motion-hover-easing),
+    box-shadow var(--zinsett-motion-hover-duration) var(--zinsett-motion-hover-easing);
 }
 
-.zinsett-category-tile__image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--zinsett-motion-hover-duration) var(--zinsett-motion-hover-easing);
+.zinsett-aisle:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--zinsett-color-shadow);
 }
 
-.zinsett-category-tile:hover .zinsett-category-tile__image {
-  transform: scale(1.03);
+.zinsett-aisle:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--zinsett-color-shadow);
+}
+
+/* Variants (FINAL-SPEC §2): green (Cats), cream (Dogs/Home), kraft (Birds). */
+.zinsett-aisle--green {
+  color: var(--zinsett-color-cream-ink);
+  background-color: var(--zinsett-color-terra);
+}
+
+.zinsett-aisle--kraft {
+  background-color: var(--zinsett-color-kraft);
 }
 
 /*
-  Homestead flag chip (FINAL-SPEC §2 ".flag"): mono caps, 2px ink border,
-  green fill — concrete claims only, never urgency, hard corners (radius
-  comes from --zinsett-radius-card, which is 0 in this direction; the pill
-  token is retired for chips/badges per §1.4).
+  Giant aisle numeral: oversized wood-type numeral, transparent fill with
+  a kraft-deep stroke so it reads low-contrast/behind the label rather
+  than competing with it (FINAL-SPEC §2). `-webkit-text-stroke` has no
+  standard fallback for outline-only type, so non-WebKit/Blink browsers
+  get a plain low-opacity ink numeral instead of an invisible one.
 */
-.zinsett-category-tile__badge {
+.zinsett-aisle__numeral {
   position: absolute;
-  top: var(--zinsett-space-8);
-  left: var(--zinsett-space-8);
-  padding: 0.3rem 0.9rem;
+  top: -0.4rem;
+  right: var(--zinsett-space-8);
+  font-family: var(--zinsett-font-mono-family);
+  font-weight: var(--zinsett-font-mono-weight-bold);
+  font-size: clamp(4.8rem, 11vw, 7.2rem);
+  line-height: 1;
+  color: var(--zinsett-color-ink);
+  opacity: 0.16;
+  font-variant-numeric: tabular-nums;
+  -webkit-text-stroke: 1.5px var(--zinsett-color-kraft-deep);
+  -webkit-text-fill-color: transparent;
+  pointer-events: none;
+}
+
+.zinsett-aisle--green .zinsett-aisle__numeral {
+  color: var(--zinsett-color-cream-ink);
+  opacity: 0.22;
+}
+
+/*
+  Product thumb: small well-mounted cutout, top-right, purely decorative
+  (category scent per FINAL-SPEC §4 judge-fix 5) — never the primary click
+  target, so it carries aria-hidden + an empty alt on the <img> itself.
+*/
+.zinsett-aisle__thumb-well {
+  position: relative;
+  z-index: 1;
+  align-self: flex-end;
+  width: 6.4rem;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: var(--zinsett-color-well);
+  border: var(--zinsett-border-component);
+  border-radius: var(--zinsett-radius-card);
+}
+
+.zinsett-aisle__thumb-well--cool {
+  background-color: var(--zinsett-color-well-cool);
+}
+
+.zinsett-aisle__thumb-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+/* Homestead flag chip (FINAL-SPEC §2 ".flag") sitting above the blended
+   thumb image, never inside it (FINAL-SPEC §3/§4 "multiply vs lazy-load"). */
+.zinsett-aisle__badge {
+  position: absolute;
+  z-index: 2;
+  top: 0.4rem;
+  left: 0.4rem;
+  padding: 0.2rem 0.6rem;
   border: 0.2rem solid var(--zinsett-color-ink);
   border-radius: var(--zinsett-radius-card);
-  background-color: var(--zinsett-color-terra);
+  background-color: var(--zinsett-color-red);
   color: var(--zinsett-color-cream-ink);
   font-family: var(--zinsett-font-mono-family);
   font-weight: var(--zinsett-font-mono-weight-bold);
@@ -75,31 +149,76 @@
   text-transform: uppercase;
 }
 
-.zinsett-category-tile__label-wrap {
-  display: block;
-  margin-top: var(--zinsett-space-16);
-  text-align: center;
+.zinsett-aisle__body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: var(--zinsett-space-16);
 }
 
-.zinsett-category-tile__label {
-  display: block;
+.zinsett-aisle__kicker {
+  font-family: var(--zinsett-font-mono-family);
+  font-weight: var(--zinsett-font-mono-weight-bold);
+  font-size: var(--zinsett-type-meta);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--zinsett-color-ink-soft);
+}
+
+.zinsett-aisle--green .zinsett-aisle__kicker {
+  color: var(--zinsett-color-cream-soft);
+}
+
+.zinsett-aisle__label {
   font-family: var(--zinsett-font-display-family);
-  font-weight: var(--zinsett-font-display-weight-semibold);
+  font-weight: var(--zinsett-font-display-weight-bold);
   font-size: var(--zinsett-type-scale-18);
+  text-wrap: balance;
 }
 
-/* Decorative underline only (never text) — kraft-deep is the retired
-   gold's successor for rules/marks/numerals (FINAL-SPEC §1.1). */
-.zinsett-category-tile__rule {
-  display: inline-block;
-  margin-top: var(--zinsett-space-8);
-  width: 4rem;
-  height: 2px;
-  background-color: var(--zinsett-color-kraft-deep);
+.zinsett-aisle:hover .zinsett-aisle__label {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Live item count — always `collection.products_count`, never hardcoded
+   (FINAL-SPEC §4 judge-fix 7). */
+.zinsett-aisle__count {
+  font-family: var(--zinsett-font-mono-family);
+  font-size: var(--zinsett-type-scale-15);
+  font-variant-numeric: tabular-nums;
+  color: var(--zinsett-color-ink-soft);
+}
+
+.zinsett-aisle--green .zinsett-aisle__count {
+  color: var(--zinsett-color-cream-soft);
+}
+
+/* Corner arrow — decorative "go to aisle" affordance, drawn with borders
+   so no extra SVG asset is required. */
+.zinsett-aisle__arrow {
+  position: absolute;
+  z-index: 1;
+  right: var(--zinsett-space-16);
+  bottom: var(--zinsett-space-16);
+  width: 0.9rem;
+  height: 0.9rem;
+  border-top: 0.2rem solid currentColor;
+  border-right: 0.2rem solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--zinsett-motion-hover-duration) var(--zinsett-motion-hover-easing);
+}
+
+.zinsett-aisle:hover .zinsett-aisle__arrow {
+  transform: rotate(45deg) translate(0.15rem, -0.15rem);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .zinsett-category-tile__image {
+  .zinsett-aisle,
+  .zinsett-aisle__arrow {
     transition-duration: 0ms;
   }
 }

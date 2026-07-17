@@ -8,7 +8,11 @@
   in the Brief, so the description field defaults to blank rather than
   inventing copy — schema-editable once copy-brand-guardian supplies one.
 {% endcomment %}
-{{ 'section-zinsett-value-props.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Perf pass: value props is Home #5, well below the fold — async per
+  Dawn's print/onload swap idiom instead of a blocking stylesheet_tag.
+{%- endcomment -%}
+<link rel="stylesheet" href="{{ 'section-zinsett-value-props.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {%- style -%}
   .section-{{ section.id }}-padding {

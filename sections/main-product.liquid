@@ -16,7 +16,12 @@
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
   {{ 'component-zinsett-product.css' | asset_url | stylesheet_tag }}
-  {{ 'component-zinsett-trust-strip.css' | asset_url | stylesheet_tag }}
+  {%- comment -%}
+    Perf pass: TrustStrip renders under the buy box (below ATC), not the
+    PDP's above-the-fold content — component-zinsett-product.css (buy box)
+    stays blocking, but the strip is async per Dawn's print/onload idiom.
+  {%- endcomment -%}
+  <link rel="stylesheet" href="{{ 'component-zinsett-trust-strip.css' | asset_url }}" media="print" onload="this.media='all'">
 
   {%- comment -%}
     Design Brief C-6: TrustStrip's "30-day returns" item is a single
