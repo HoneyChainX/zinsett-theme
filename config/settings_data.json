@@ -222,7 +222,8 @@
             "color_scheme": "scheme-1"
           }
         }
-      }
+      },
+      "favicon": "shopify://shop_images/zinsett-favicon.png"
     }
   }
 }
