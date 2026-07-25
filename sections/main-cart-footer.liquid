@@ -8,6 +8,12 @@
   swap idiom.
 {%- endcomment -%}
 <link rel="stylesheet" href="{{ 'component-zinsett-trust-strip.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- comment -%}
+  The free-shipping bar was previously only rendered from cart-drawer.liquid,
+  so with cart_type = 'notification' it never appeared anywhere. It now also
+  renders on the cart page and in the add-to-cart notification.
+{%- endcomment -%}
+<link rel="stylesheet" href="{{ 'component-zinsett-shipping-bar.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -76,6 +82,8 @@
                     </ul>
                   {%- endif -%}
                 </div>
+
+                {%- render 'zinsett-shipping-bar' -%}
 
                 <div class="totals">
                   <h2 class="totals__total">{{ 'sections.cart.estimated_total' | t }}</h2>
