@@ -23,7 +23,12 @@
   {% render 'product-faq-accordion', product: product, heading: 'FAQ', section_id: section.id %}
 {% endcomment %}
 {%- liquid
-  assign faq_items = product.metafields.custom.faq
+  comment
+    `.value` is required to reach the parsed JSON array. The metafield
+    object itself is never blank, so without it the heading rendered and
+    the loop yielded nothing.
+  endcomment
+  assign faq_items = product.metafields.custom.faq.value
   assign faq_heading = heading | default: 'FAQ'
 -%}
 {%- if faq_items != blank -%}

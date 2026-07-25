@@ -7,6 +7,16 @@
   media="print"
   onload="this.media='all'"
 >
+{%- comment -%}
+  The cart notification carries the free-shipping bar when cart_type is
+  'notification', so its stylesheet has to load here too.
+{%- endcomment -%}
+<link
+  rel="stylesheet"
+  href="{{ 'component-zinsett-shipping-bar.css' | asset_url }}"
+  media="print"
+  onload="this.media='all'"
+>
 
 {%- if settings.predictive_search_enabled -%}
   <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">

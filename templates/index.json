@@ -18,7 +18,8 @@
             "collection": "dogs",
             "title": "Dogs",
             "show_badge": false,
-            "badge_text": "NEW"
+            "badge_text": "NEW",
+            "variant": "cream"
           }
         },
         "tile-cats": {
@@ -27,7 +28,8 @@
             "collection": "cats",
             "title": "Cats",
             "show_badge": false,
-            "badge_text": "NEW"
+            "badge_text": "NEW",
+            "variant": "green"
           }
         },
         "tile-birds": {
@@ -36,7 +38,8 @@
             "collection": "birds",
             "title": "Birds",
             "show_badge": true,
-            "badge_text": "NEW"
+            "badge_text": "NEW",
+            "variant": "kraft"
           }
         },
         "tile-home": {
@@ -44,7 +47,9 @@
           "settings": {
             "title": "Home",
             "show_badge": false,
-            "badge_text": "NEW"
+            "badge_text": "NEW",
+            "collection": "home-picks",
+            "variant": "cream"
           }
         }
       },
