@@ -24,6 +24,12 @@
   <meta property="og:image:secure_url" content="https:{{ page_image | image_url }}">
   <meta property="og:image:width" content="{{ page_image.width }}">
   <meta property="og:image:height" content="{{ page_image.height }}">
+{%- else -%}
+  {%- assign zinsett_og_image = 'zinsett-og-image.png' | asset_url -%}
+  <meta property="og:image" content="https:{{ zinsett_og_image }}">
+  <meta property="og:image:secure_url" content="https:{{ zinsett_og_image }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 {%- endif -%}
 
 {%- if request.page_type == 'product' -%}
