@@ -58,12 +58,20 @@
             height="{{ section.settings.image_mobile.width | divided_by: section.settings.image_mobile.aspect_ratio }}"
           >
         {%- endif -%}
+        {%- comment -%}
+          Height is pre-assigned: piping `| divided_by:` inside an image_tag
+          argument list makes Liquid read it as a filter chained onto image_tag
+          itself, which raises "wrong number of arguments (given 3, expected 2)"
+          and drops the <img> entirely. Latent until a hero image was actually
+          set — the placeholder branch had always run instead.
+        {%- endcomment -%}
+        {%- assign hero_image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio -%}
         {{
           section.settings.image
           | image_url: width: 3840
           | image_tag:
             width: section.settings.image.width,
-            height: section.settings.image.width | divided_by: section.settings.image.aspect_ratio,
+            height: hero_image_height,
             sizes: '100vw',
             widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
             fetchpriority: 'high',
