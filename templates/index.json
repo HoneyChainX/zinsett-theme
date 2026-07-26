@@ -4,9 +4,12 @@
       "type": "zinsett-hero-editorial",
       "settings": {
         "heading": "Summer comfort, sorted.",
-        "button_label": "Shop the Summer Edit",
+        "button_label": "Shop pet essentials",
         "image_height": "large",
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "image": "shopify://shop_images/zinsett-hero-desktop.jpg",
+        "image_mobile": "shopify://shop_images/zinsett-hero-mobile.jpg",
+        "button_link": "shopify://collections/shop-all-pets"
       }
     },
     "zinsett_category_tiles": {
