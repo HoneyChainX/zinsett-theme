@@ -34,32 +34,44 @@
   class="zinsett-hero section-{{ section.id }}-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
 >
   <div class="zinsett-hero__media media{% if section.settings.image == blank %} placeholder{% endif %}">
+    {%- comment -%}
+      <picture> rather than two <img>s toggled with display:none — browsers
+      still download a hidden <img>, so the old markup fetched BOTH heroes on
+      every visit and the unused one competed with the LCP image for bandwidth
+      on mobile. The <source> lets the browser pick exactly one.
+    {%- endcomment -%}
     {%- if section.settings.image != blank -%}
-      {{
-        section.settings.image
-        | image_url: width: 3840
-        | image_tag:
-          width: section.settings.image.width,
-          height: section.settings.image.width | divided_by: section.settings.image.aspect_ratio,
-          sizes: '100vw',
-          widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
-          fetchpriority: 'high',
-          class: 'zinsett-hero__image zinsett-hero__image--desktop'
-      }}
+      <picture>
+        {%- if section.settings.image_mobile != blank -%}
+          {%- capture mobile_srcset -%}
+            {{ section.settings.image_mobile | image_url: width: 375 }} 375w,
+            {{ section.settings.image_mobile | image_url: width: 550 }} 550w,
+            {{ section.settings.image_mobile | image_url: width: 750 }} 750w,
+            {{ section.settings.image_mobile | image_url: width: 1100 }} 1100w,
+            {{ section.settings.image_mobile | image_url: width: 1500 }} 1500w
+          {%- endcapture -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ mobile_srcset }}"
+            sizes="100vw"
+            width="{{ section.settings.image_mobile.width }}"
+            height="{{ section.settings.image_mobile.width | divided_by: section.settings.image_mobile.aspect_ratio }}"
+          >
+        {%- endif -%}
+        {{
+          section.settings.image
+          | image_url: width: 3840
+          | image_tag:
+            width: section.settings.image.width,
+            height: section.settings.image.width | divided_by: section.settings.image.aspect_ratio,
+            sizes: '100vw',
+            widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+            fetchpriority: 'high',
+            class: 'zinsett-hero__image'
+        }}
+      </picture>
     {%- else -%}
-      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg zinsett-hero__image zinsett-hero__image--desktop' }}
-    {%- endif -%}
-    {%- if section.settings.image_mobile != blank -%}
-      {{
-        section.settings.image_mobile
-        | image_url: width: 1500
-        | image_tag:
-          width: section.settings.image_mobile.width,
-          height: section.settings.image_mobile.width | divided_by: section.settings.image_mobile.aspect_ratio,
-          sizes: '100vw',
-          widths: '375, 550, 750, 1100, 1500',
-          class: 'zinsett-hero__image zinsett-hero__image--mobile'
-      }}
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg zinsett-hero__image' }}
     {%- endif -%}
   </div>
 

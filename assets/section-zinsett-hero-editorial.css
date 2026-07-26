@@ -19,10 +19,6 @@
   object-fit: cover;
 }
 
-.zinsett-hero__image--mobile {
-  display: none;
-}
-
 .zinsett-hero__content-wrap {
   position: relative;
   z-index: 1;
@@ -103,16 +99,7 @@
   .zinsett-hero__content-wrap {
     display: block;
   }
-
-  .zinsett-hero__image--desktop {
-    display: none;
-  }
-
-  .zinsett-hero__image--mobile {
-    display: block;
-  }
-
-  .zinsett-hero__scrim {
+.zinsett-hero__scrim {
     max-width: none;
     margin: var(--zinsett-space-16);
   }
