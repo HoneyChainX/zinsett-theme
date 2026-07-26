@@ -100,13 +100,15 @@
         "item-fountain": {
           "type": "item",
           "settings": {
-            "title": "Solar Bird-Bath Fountain"
+            "title": "Solar Bird-Bath Fountain",
+            "product": "solar-water-fountain-pool-pond-waterfall-fountain-garden-supplies-decoration-outdoor-new-mini-solar-powered-fountain-bird-baths"
           }
         },
         "item-feeder": {
           "type": "item",
           "settings": {
-            "title": "Glass Hummingbird Feeder 2-pack"
+            "title": "Glass Hummingbird Feeder 2-pack",
+            "product": "glass-hummingbird-feeder-hanging-outdoor-bird-feeder-with-5-feeding-ports-20oz-garden-patio-decor-2-pack"
           }
         }
       },
@@ -115,13 +117,14 @@
         "item-feeder"
       ],
       "settings": {
-        "eyebrow": "Bundle",
+        "eyebrow": "Goes together",
         "heading": "Backyard Oasis",
-        "bundle_price": "$69",
-        "original_price": "$74",
-        "savings_label": "Save $5",
-        "button_label": "Shop the bundle",
-        "color_scheme": "scheme-2"
+        "bundle_price": "",
+        "original_price": "",
+        "savings_label": "",
+        "button_label": "Shop the bird range",
+        "color_scheme": "scheme-2",
+        "button_link": "shopify://collections/birds"
       }
     },
     "zinsett_value_props": {
