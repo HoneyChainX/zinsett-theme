@@ -68,8 +68,14 @@
       {%- if section.settings.eyebrow != blank -%}
         <p class="zinsett-hero__eyebrow">{{ section.settings.eyebrow | escape }}</p>
       {%- endif -%}
+      {%- comment -%}
+        h2, not h1: Dawn already renders the shop name as the page's h1 in the
+        header on the index template, and this section only appears there.
+        Two h1s on one page is the defect the live QA pass flagged. Styling is
+        class-driven, so the heading looks identical.
+      {%- endcomment -%}
       {%- if section.settings.heading != blank -%}
-        <h1 class="zinsett-hero__heading">{{ section.settings.heading }}</h1>
+        <h2 class="zinsett-hero__heading">{{ section.settings.heading }}</h2>
       {%- endif -%}
       {%- if section.settings.subheading != blank -%}
         <div class="zinsett-hero__subheading">{{ section.settings.subheading }}</div>
