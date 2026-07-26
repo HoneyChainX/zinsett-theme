@@ -223,7 +223,8 @@
           }
         }
       },
-      "favicon": "shopify://shop_images/zinsett-favicon.png"
+      "favicon": "shopify://shop_images/zinsett-favicon.png",
+      "zinsett_returns_policy_ready": true
     }
   }
 }
